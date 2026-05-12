@@ -1,0 +1,137 @@
+
+###
+POST http://localhost:3333/api/auth/register
+Content-Type: application/json  
+
+{
+  "name": "revanth",
+  "email": "revanth@gmail.com",
+  "password": "12345678"
+}
+
+###login
+POST http://localhost:3333/api/auth/login
+Content-Type: application/json  
+
+{
+  "email": "revanth@gmail.com",
+  "password": "12345678"
+}
+
+###board create
+POST http://localhost:3333/api/board/create
+Content-Type: application/json
+
+{
+    "title":"DSA",
+    "owner":"69b8db7892d4dbfca3d19717",
+    "member":"69b8dbbb92d4dbfca3d1971c"
+}
+
+###GET all boards
+GET http://localhost:3333/api/board/get 
+
+###GET board by id
+GET http://localhost:3333/api/board/get/69b8dc1992d4dbfca3d19724
+
+###soft delete by id
+DELETE http://localhost:3333/api/board/delete/69b8dc1992d4dbfca3d19724
+
+###update name of board
+PUT http://localhost:3333/api/board/69b8dc1992d4dbfca3d19724
+Content-Type: application/json
+
+{
+"title":"Smart-interviews"
+}
+
+### create a list based on board id
+POST http://localhost:3333/api/list/create
+Content-Type: application/json
+
+{
+    "title":"DATABASE",
+    "boardId":"69b8dbd392d4dbfca3d1971f"
+}
+
+###get all lists  in board based on board id
+GET http://localhost:3333/api/list/get/69b8dbd392d4dbfca3d1971f
+
+###update list name based on listid
+PUT http://localhost:3333/api/list/update/69b8dca092d4dbfca3d19730
+Content-Type: application/json
+
+{
+    "title":"DATABASE"
+}
+
+###soft delete list
+DELETE http://localhost:3333/api/list/69b8dca092d4dbfca3d19730
+
+
+
+###create cards
+POST http://localhost:3333/api/card/create
+Content-Type: application/json
+
+{
+    "title":"angular",
+    "description":"its a choice",
+    "listId":"69b8dc8792d4dbfca3d1972c"
+}
+
+###get card by listid
+GET http://localhost:3333/api/card/get/69b8dc8792d4dbfca3d1972c
+###update card by card id
+PUT http://localhost:3333/api/card/update/69b8de272113034a558b1e67
+Content-Type: application/json
+
+{
+    "title":"html",
+    "description":"1day"
+}
+
+###delete(soft)
+DELETE http://localhost:3333/api/card/delete/69b8dead2113034a558b1e74
+
+### reorder
+PUT http://localhost:3333/api/card/reorder
+Content-Type: application/json
+
+{
+  "cards": [
+    {
+      "cardId": "69b811d71b401e4d598753bf",
+      "position": 0
+    },
+    {
+      "cardId": "69b812f5ebd1df9f3c76be8f",
+      "position": 1
+    }
+  ]
+}
+
+###
+PUT http://localhost:3333/api/card/move
+Content-Type: application/json
+
+{
+  "cardId": "69b811d71b401e4d598753bf",
+  "newListId": "69b80c626e235578ccf31bf8",
+  "newPosition": 0
+}
+
+
+###
+POST http://localhost:3333/api/activity/create
+Content-Type: application/json
+
+{
+  "action": "Moved card to In Progress",
+  "cardId": "69b811d71b401e4d598753bf",
+  "boardId": "69b7d07d30c695c66e5dc26d"
+}
+
+###
+GET http://localhost:3333/api/activity/69b7d07d30c695c66e5dc26d
+
