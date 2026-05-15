@@ -182,6 +182,7 @@ import API from "../services/api";
 import useBoardStore from "../store/boardStore";
 import useAuthStore from "../store/authStore";
 import { useNavigate } from "react-router-dom";
+import Footer from "../components/Common/Footer";
 
 export default function Dashboard() {
   const { logout } = useAuthStore();
@@ -260,14 +261,24 @@ export default function Dashboard() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#0f172a] text-white">
+    <div className="min-h-screen flex flex-col bg-black text-white">
 
       {/* 🔥 NAVBAR */}
-      <div className="flex justify-between items-center px-6 py-4 border-b border-white/10">
+      <div className="flex justify-between items-center px-6 py-4 border-b border-white/10 bg-[#111111]">
 
-        <h1 className="text-xl font-bold tracking-wide">
-          TaskFlow 🚀
-        </h1>
+        <div 
+          onClick={() => navigate("/dashboard")} 
+          className="flex items-center gap-2 cursor-pointer hover:opacity-80 transition"
+        >
+          <img 
+            src="https://cdn-icons-png.flaticon.com/512/6124/6124991.png" 
+            alt="Logo" 
+            className="w-7 h-7 invert" 
+          />
+          <h1 className="text-xl font-bold tracking-wide">
+            TaskFlow
+          </h1>
+        </div>
 
         <div className="flex items-center gap-4">
           <span className="text-sm text-gray-300">
@@ -284,7 +295,7 @@ export default function Dashboard() {
       </div>
 
       {/* 🔥 CONTENT */}
-      <div className="p-6">
+      <div className="p-6 min-h-[100vh]">
 
         {/* HEADER */}
         <div className="flex justify-between items-center mb-6">
@@ -303,8 +314,8 @@ export default function Dashboard() {
             <div
               key={b._id}
               onClick={() => navigate(`/board/${b._id}`)}
-              className="bg-white/10 border border-white/10 p-5 rounded-xl cursor-pointer
-              hover:bg-white/20 transition backdrop-blur-lg"
+              className="bg-[#0f0f0f] border border-white/10 p-5 rounded-xl cursor-pointer
+              hover:bg-[#1a1a1a] hover:border-white/30 transition"
             >
               <h3 className="text-lg font-semibold mb-2">
                 {b.title}
@@ -320,7 +331,7 @@ export default function Dashboard() {
           <div
             onClick={() => setShowModal(true)}
             className="flex items-center justify-center border-2 border-dashed
-            border-white/20 rounded-xl cursor-pointer hover:bg-white/10"
+            border-white/20 rounded-xl cursor-pointer hover:bg-[#0f0f0f] hover:border-white/40 transition"
           >
             <span className="text-gray-400">+ New Board</span>
           </div>
@@ -330,11 +341,11 @@ export default function Dashboard() {
 
       {/* 🔥 MODAL */}
       {showModal && (
-        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
 
-          <div className="bg-[#1e293b] p-6 rounded-xl w-[350px] shadow-xl">
+          <div className="bg-[#0a0a0a] border border-white/10 p-6 rounded-xl w-[350px] shadow-2xl">
 
-            <h2 className="text-lg font-semibold mb-4">
+            <h2 className="text-lg font-semibold mb-4 text-white">
               Create New Board
             </h2>
 
@@ -342,30 +353,32 @@ export default function Dashboard() {
               placeholder="Board title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="w-full p-3 mb-4 rounded bg-white/10 border border-white/10 outline-none"
+              className="w-full p-3 mb-4 rounded bg-black border border-white/20 text-white placeholder-gray-500 outline-none focus:border-white/50 transition"
             />
 
             <div className="flex justify-end gap-3">
 
               <button
                 onClick={() => setShowModal(false)}
-                className="px-3 py-2 text-gray-400"
+                className="px-3 py-2 text-gray-400 hover:text-white transition"
               >
                 Cancel
               </button>
 
               <button
                 onClick={handleCreateBoard}
-                className="bg-blue-600 px-4 py-2 rounded hover:bg-blue-700"
+                className="bg-white text-black px-4 py-2 rounded font-medium hover:bg-gray-200 transition"
               >
                 Create
               </button>
 
             </div>
           </div>
-
         </div>
       )}
+
+      {/* 🔥 FOOTER */}
+      <Footer />
     </div>
   );
 }

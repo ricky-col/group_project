@@ -344,7 +344,12 @@ export default function CardModal({ card, onClose }) {
   };
 
   return (
-    <div className="fixed inset-0 z-[9999]" onPointerDown={(e) => e.stopPropagation()}>
+    <div 
+      className="fixed inset-0 z-[9999]" 
+      onPointerDown={(e) => e.stopPropagation()}
+      onKeyDown={(e) => e.stopPropagation()}
+      onKeyUp={(e) => e.stopPropagation()}
+    >
 
       {/* BACKDROP */}
       <div
@@ -355,9 +360,10 @@ export default function CardModal({ card, onClose }) {
       {/* MODAL */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
         <div
-          className="bg-[#1e293b] w-[500px] p-4 rounded-xl text-white"
+          className="bg-[#1e293b] w-[550px] p-6 rounded-xl text-white shadow-2xl border border-white/10"
           onMouseDown={(e) => e.stopPropagation()}
           onClick={(e) => e.stopPropagation()}
+          onKeyDown={(e) => e.stopPropagation()}
         >
 
           {/* HEADER */}
@@ -488,7 +494,10 @@ export default function CardModal({ card, onClose }) {
           <div className="mt-4">
             <h3 className="text-sm mb-2">Attachments</h3>
 
-            <input type="file" onChange={handleFileUpload} />
+            <label className="cursor-pointer bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold py-2 px-4 rounded-lg shadow-md transition inline-block">
+              Choose File
+              <input type="file" className="hidden" onChange={handleFileUpload} />
+            </label>
 
             <div className="mt-2 flex flex-col gap-1">
               {card.attachments?.map((file, i) => (
@@ -497,7 +506,7 @@ export default function CardModal({ card, onClose }) {
                   href={file.url}
                   target="_blank"
                   rel="noreferrer"
-                  className="text-blue-400 text-xs underline"
+                  className="text-blue-400 text-xs underline border border-blue-400 px-2 py-1"
                 >
                   📎 {file.name}
                 </a>

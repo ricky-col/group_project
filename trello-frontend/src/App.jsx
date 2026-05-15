@@ -25,7 +25,6 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-
         {/* <Route
           path="/"
           element={user ? <Navigate to="/dashboard" /> : <Navigate to="/login" />}
@@ -58,5 +57,6 @@ function App() {
     </BrowserRouter>
   );
 }
+
 
 export default App;

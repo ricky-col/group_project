@@ -1,257 +1,13 @@
-// // // import { useState } from "react";
-// // // import API from "../services/api";
-// // // import { useNavigate } from "react-router-dom";
-
-// // // export default function Register() {
-// // //   const [name, setName] = useState("");
-// // //   const [email, setEmail] = useState("");
-// // //   const [password, setPassword] = useState("");
-
-// // //   const navigate = useNavigate();
-
-// // //   const handleRegister = async () => {
-// // //     try {
-// // //       await API.post("/auth/register", {
-// // //         name,
-// // //         email,
-// // //         password,
-// // //       });
-
-// // //       alert("Registered ✅");
-// // //       navigate("/login");
-
-// // //     } catch (err) {
-// // //       console.log(err);
-// // //     }
-// // //   };
-
-// // //   return (
-// // //     <div className="h-screen flex flex-col items-center justify-center gap-3 bg-black text-white">
-
-// // //       <h2 className="text-xl">Register</h2>
-
-// // //       <input
-// // //         placeholder="Name"
-// // //         value={name}
-// // //         onChange={(e) => setName(e.target.value)}
-// // //         className="p-2 bg-[#020617]"
-// // //       />
-
-// // //       <input
-// // //         placeholder="Email"
-// // //         value={email}
-// // //         onChange={(e) => setEmail(e.target.value)}
-// // //         className="p-2 bg-[#020617]"
-// // //       />
-
-// // //       <input
-// // //         type="password"
-// // //         placeholder="Password"
-// // //         value={password}
-// // //         onChange={(e) => setPassword(e.target.value)}
-// // //         className="p-2 bg-[#020617]"
-// // //       />
-
-// // //       <button
-// // //         onClick={handleRegister}
-// // //         className="bg-blue-600 px-4 py-2"
-// // //       >
-// // //         Register
-// // //       </button>
-
-// // //     </div>
-// // //   );
-// // // }
-
-
-// // import { useState } from "react";
-// // import API from "../services/api";
-
-// // export default function Register() {
-// //   const [name, setName] = useState("");
-// //   const [email, setEmail] = useState("");
-// //   const [password, setPassword] = useState("");
-// //   const [loading, setLoading] = useState(false);
-
-// //   const handleRegister = async () => {
-// //     try {
-// //       setLoading(true);
-// //       await API.post("/auth/register", {
-// //         name,
-// //         email,
-// //         password,
-// //       });
-
-// //       alert("Registered successfully ✅");
-// //       setLoading(false);
-
-// //       window.location.href = "/login";
-
-// //     } catch (err) {
-// //       console.log("REGISTER ERROR:", err.response?.data || err);
-// //     }
-// //   };
-
-// //   return (
-// //     <div className="h-screen flex items-center justify-center bg-gradient-to-r from-purple-600 to-blue-500">
-
-// //       {/* CARD */}
-// //       <div className="bg-white p-8 rounded-2xl shadow-2xl w-[350px]">
-
-// //         <h2 className="text-2xl font-bold text-center mb-6 text-gray-800">
-// //           Create Account 🚀
-// //         </h2>
-
-// //         {/* NAME */}
-// //         <input
-// //           id="name"
-// //           name="name"
-// //           placeholder="Full Name"
-// //           className="w-full p-3 mb-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-// //           onChange={(e) => setName(e.target.value)}
-// //         />
-
-// //         {/* EMAIL */}
-// //         <input
-// //           id="email"
-// //           name="email"
-// //           type="email"
-// //           placeholder="Email"
-// //           className="w-full p-3 mb-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-// //           onChange={(e) => setEmail(e.target.value)}
-// //         />
-
-// //         {/* PASSWORD */}
-// //         <input
-// //           id="password"
-// //           name="password"
-// //           type="password"
-// //           placeholder="Password"
-// //           className="w-full p-3 mb-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-// //           onChange={(e) => setPassword(e.target.value)}
-// //         />
-
-// //         {/* BUTTON */}
-// //         <button
-// //           onClick={handleRegister}
-// //           className="w-full bg-purple-600 text-white py-3 rounded-lg hover:bg-purple-700 transition"
-// //         >
-// //           Register
-// //         </button>
-
-// //         <button disabled={loading}>
-// //   {loading ? "Loading..." : "Register"}
-// // </button>
-
-// //         {/* FOOTER */}
-// //         <p className="text-center mt-4 text-gray-600">
-// //           Already have an account?{" "}
-// //           <span
-// //             className="text-blue-600 cursor-pointer"
-// //             onClick={() => (window.location.href = "/login")}
-// //           >
-// //             Login
-// //           </span>
-// //         </p>
-
-// //       </div>
-// //     </div>
-// //   );
-// // }
-
-// import { useState } from "react";
-// import API from "../services/api";
-
-// export default function Register() {
-//   const [name, setName] = useState("");
-//   const [email, setEmail] = useState("");
-//   const [password, setPassword] = useState("");
-
-//   const handleRegister = async () => {
-//     try {
-//       await API.post("/auth/register", {
-//         name,
-//         email,
-//         password,
-//       });
-
-//       alert("Account created ✅");
-//       window.location.href = "/login";
-
-//     } catch (err) {
-//       console.log("REGISTER ERROR:", err.response?.data || err);
-//     }
-//   };
-
-//   return (
-//     <div className="h-screen flex items-center justify-center bg-gray-100">
-
-//       {/* CARD */}
-//       <div className="bg-white w-[400px] p-8 rounded-xl shadow-md text-center">
-
-//         {/* TITLE */}
-//         <h1 className="text-2xl font-bold text-blue-600 mb-2">
-//           TaskFlow
-//         </h1>
-
-//         <p className="text-sm text-gray-600 mb-6">
-//           System Design Level Task Management App
-//         </p>
-
-//         {/* NAME */}
-//         <input
-//           placeholder="Full Name"
-//           className="w-full border p-3 rounded mb-3 focus:outline-blue-500"
-//           onChange={(e) => setName(e.target.value)}
-//         />
-
-//         {/* EMAIL */}
-//         <input
-//           type="email"
-//           placeholder="Email"
-//           className="w-full border p-3 rounded mb-3 focus:outline-blue-500"
-//           onChange={(e) => setEmail(e.target.value)}
-//         />
-
-//         {/* PASSWORD */}
-//         <input
-//           type="password"
-//           placeholder="Password"
-//           className="w-full border p-3 rounded mb-4 focus:outline-blue-500"
-//           onChange={(e) => setPassword(e.target.value)}
-//         />
-
-//         {/* BUTTON */}
-//         <button
-//           onClick={handleRegister}
-//           className="w-full bg-blue-600 text-white py-3 rounded hover:bg-blue-700 transition"
-//         >
-//           Sign up
-//         </button>
-
-//         {/* LINK */}
-//         <p className="mt-4 text-sm text-gray-600">
-//           Already have an account?{" "}
-//           <span
-//             className="text-blue-600 cursor-pointer"
-//             onClick={() => (window.location.href = "/login")}
-//           >
-//             Log in
-//           </span>
-//         </p>
-
-//       </div>
-//     </div>
-//   );
-// }
-
 import { useState } from "react";
 import API from "../services/api";
+import Footer from "../components/Common/Footer";
+import { useNavigate } from "react-router-dom";
 
 export default function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleRegister = async () => {
     try {
@@ -261,70 +17,101 @@ export default function Register() {
         password,
       });
 
-      window.location.href = "/login";
+      navigate("/login");
     } catch (err) {
       console.log(err);
     }
   };
 
   return (
-    <div className="h-screen flex items-center justify-center bg-[#0f172a]">
+    <div className="min-h-screen flex flex-col bg-black text-white">
+      {/* MAIN SPLIT-SCREEN CONTAINER */}
+      <div className="flex-1 flex min-h-[100vh]">
+        
+        {/* LEFT PANEL: AUTH FORM */}
+        <div className="w-full lg:w-1/2 flex flex-col justify-center px-10 sm:px-20 lg:px-32 xl:px-40 relative">
+          
+          {/* Logo / Back to home */}
+          <div 
+            onClick={() => navigate("/")}
+            className="absolute top-10 left-10 flex items-center gap-2 cursor-pointer hover:opacity-80 transition"
+          >
+            <img 
+              src="https://cdn-icons-png.flaticon.com/512/6124/6124991.png" 
+              alt="Logo" 
+              className="w-6 h-6 invert" 
+            />
+            <span className="font-bold tracking-wide text-lg">TaskFlow</span>
+          </div>
 
-      {/* GLOW */}
-      <div className="absolute w-[500px] h-[500px] bg-pink-600 blur-[120px] opacity-30 rounded-full top-[-100px] right-[-100px]" />
-      <div className="absolute w-[500px] h-[500px] bg-blue-600 blur-[120px] opacity-30 rounded-full bottom-[-100px] left-[-100px]" />
+          <div className="max-w-md w-full mx-auto">
+            <h1 className="text-4xl font-bold mb-2">Create an account</h1>
+            <p className="text-gray-400 mb-10">Start managing your tasks effectively.</p>
 
-      {/* CARD */}
-      <div className="relative bg-white/10 backdrop-blur-xl border border-white/10 
-      p-10 rounded-2xl shadow-2xl w-[380px] text-center">
+            <div className="flex flex-col gap-5">
+              <div className="flex flex-col">
+                <label className="text-sm text-gray-400 mb-2">Full Name</label>
+                <input
+                  type="text"
+                  placeholder="Enter your name"
+                  className="w-full p-3 rounded-lg bg-[#0a0a0a] text-white border border-white/10 focus:outline-none focus:border-white/40 transition"
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </div>
 
-        <div className="text-3xl font-bold text-white mb-2">
-          TaskFlow
+              <div className="flex flex-col">
+                <label className="text-sm text-gray-400 mb-2">Email</label>
+                <input
+                  type="email"
+                  placeholder="Enter your email"
+                  className="w-full p-3 rounded-lg bg-[#0a0a0a] text-white border border-white/10 focus:outline-none focus:border-white/40 transition"
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
+
+              <div className="flex flex-col">
+                <label className="text-sm text-gray-400 mb-2">Password</label>
+                <input
+                  type="password"
+                  placeholder="Create a password"
+                  className="w-full p-3 rounded-lg bg-[#0a0a0a] text-white border border-white/10 focus:outline-none focus:border-white/40 transition"
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </div>
+
+              <button
+                onClick={handleRegister}
+                className="w-full bg-white text-black font-semibold py-3 rounded-lg mt-4 hover:bg-gray-200 transition duration-200"
+              >
+                Sign Up
+              </button>
+            </div>
+
+            <p className="mt-8 text-center text-gray-400 text-sm">
+              Already have an account?{" "}
+              <span
+                className="text-white font-medium cursor-pointer hover:underline"
+                onClick={() => navigate("/login")}
+              >
+                Sign in
+              </span>
+            </p>
+          </div>
         </div>
 
-        <p className="text-gray-300 text-sm mb-6">
-          System Design Level Task Management App
-        </p>
-
-        <input
-          placeholder="Full Name"
-          className="w-full p-3 mb-3 rounded-lg bg-white/10 text-white border border-white/10"
-          onChange={(e) => setName(e.target.value)}
-        />
-
-        <input
-          type="email"
-          placeholder="Email"
-          className="w-full p-3 mb-3 rounded-lg bg-white/10 text-white border border-white/10"
-          onChange={(e) => setEmail(e.target.value)}
-        />
-
-        <input
-          type="password"
-          placeholder="Password"
-          className="w-full p-3 mb-4 rounded-lg bg-white/10 text-white border border-white/10"
-          onChange={(e) => setPassword(e.target.value)}
-        />
-
-        <button
-          onClick={handleRegister}
-          className="w-full bg-gradient-to-r from-pink-500 to-blue-500 
-          text-white py-3 rounded-lg font-semibold hover:scale-[1.02]"
-        >
-          Create account
-        </button>
-
-        <p className="mt-5 text-gray-400 text-sm">
-          Already have an account?{" "}
-          <span
-            className="text-white cursor-pointer hover:underline"
-            onClick={() => (window.location.href = "/login")}
-          >
-            Sign in
-          </span>
-        </p>
+        {/* RIGHT PANEL: IMAGE */}
+        <div className="hidden lg:block lg:w-1/2 relative bg-[#111111] overflow-hidden">
+          <div className="absolute inset-0 bg-black/30 z-10" />
+          <img 
+            src=""
+            alt="Team Collaboration"
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+        </div>
 
       </div>
+
+      <Footer />
     </div>
   );
 }

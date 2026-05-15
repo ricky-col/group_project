@@ -10,13 +10,11 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
 
-export default function List({ list, boardId }) {
+export default function List({ list, boardId, onCardClick }) {
   // ✅ OPTIMIZED STORE USAGE
   const cards = useBoardStore((state) => state.cards);
   const setCardsByList = useBoardStore((state) => state.setCardsByList);
   const setLists = useBoardStore((state) => state.setLists);
-
-  const [selectedCard, setSelectedCard] = useState(null);
   const {
     setNodeRef,
     attributes,
@@ -120,7 +118,7 @@ export default function List({ list, boardId }) {
       <DraggableCard
         key={card._id}
         card={card}
-        onClick={() => setSelectedCard(card)}
+        onClick={() => onCardClick(card)}
       />
     ))}
   </SortableContext>
@@ -128,12 +126,6 @@ export default function List({ list, boardId }) {
 
       {/* ADD CARD */}
       <AddCard listId={list._id} boardId={boardId} />
-
-      {/* CARD MODAL */}
-      <CardModal
-        card={selectedCard}
-        onClose={() => setSelectedCard(null)}
-      />
     </div>
   );
 }

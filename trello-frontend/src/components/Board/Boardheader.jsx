@@ -108,12 +108,14 @@
 
 
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import API from "../../services/api";
 
 export default function BoardHeader({ title, boardId }) {
   const [showActivity, setShowActivity] = useState(false);
   const [activities, setActivities] = useState([]);
   const [email, setEmail] = useState("");
+  const navigate = useNavigate();
 
   const openActivity = async () => {
     if (!boardId) return;
@@ -149,12 +151,22 @@ export default function BoardHeader({ title, boardId }) {
 
         {/* LEFT */}
         <div className="flex items-center gap-3">
-          <h2 className="font-semibold text-lg">
-            {title || "Board"}
-          </h2>
+          <div 
+            onClick={() => navigate("/dashboard")}
+            className="flex items-center gap-2 cursor-pointer hover:opacity-80 transition"
+          >
+            <img 
+              src="https://cdn-icons-png.flaticon.com/512/6124/6124991.png" 
+              alt="Logo" 
+              className="w-6 h-6 invert" 
+            />
+            <h2 className="font-semibold text-lg">
+              {title || "Board"}
+            </h2>
+          </div>
 
           <button className="text-gray-400 hover:text-white">
-            ⭐
+            
           </button>
         </div>
 
@@ -200,7 +212,7 @@ export default function BoardHeader({ title, boardId }) {
 
       {/* 🔥 ACTIVITY DRAWER */}
       {showActivity && (
-        <div className="fixed inset-0 z-[9999] flex">
+        <div className="fixed inset-0 z-9999 flex">
 
           {/* OVERLAY */}
           <div

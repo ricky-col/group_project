@@ -10,12 +10,15 @@ import BoardHeader from "./BoardHeader";
 import {DndContext,closestCenter} from "@dnd-kit/core";
 import {SortableContext,horizontalListSortingStrategy} from "@dnd-kit/sortable";
 import { arrayMove } from "@dnd-kit/sortable";
+import Footer from "../Common/Footer";
+import CardModal from "../Card/CardModal";
 
 export default function Board() {
   const { id: boardId } = useParams(); // ✅ FIXED
 
   const { lists, setLists, cards, setCardsByList } = useBoardStore();
   const [board, setBoard] = useState(null);
+  const [selectedCard, setSelectedCard] = useState(null);
 
   const fetchLists = async () => {
     try {
@@ -241,14 +244,14 @@ const handleDragEnd = async (event) => {
 };
   return (
     <DndContext onDragEnd={handleDragEnd}>
-      <div className="h-screen flex flex-col">
+      <div className="flex flex-col">
 
         {/* ✅ HEADER */}
         <BoardHeader title={board?.title} boardId={boardId} />
 
         {/* BOARD */}
         <div
-          className="flex items-start gap-6 p-6 overflow-x-auto flex-1 bg-cover bg-center"
+          className="flex items-start gap-6 p-6 overflow-x-auto min-h-[100vh] bg-cover bg-center"
           style={{
             backgroundImage:
               "url('https://images.pexels.com/photos/733174/pexels-photo-733174.jpeg')",
@@ -259,12 +262,26 @@ const handleDragEnd = async (event) => {
   strategy={horizontalListSortingStrategy}
 >
   {lists.map((list) => (
-    <List key={list._id} list={list} boardId={boardId} />
+    <List 
+      key={list._id} 
+      list={list} 
+      boardId={boardId} 
+      onCardClick={(card) => setSelectedCard(card)}
+    />
   ))}
 </SortableContext>
 
           <AddList boardId={boardId} />
         </div>
+
+        {/* ✅ CARD MODAL (Moved to board level to fix positioning) */}
+        <CardModal
+          card={selectedCard}
+          onClose={() => setSelectedCard(null)}
+        />
+
+        {/* 🔥 FOOTER */}
+        <Footer isTransparent={true} />
       </div>
     </DndContext>
   );
