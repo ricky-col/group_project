@@ -183,6 +183,7 @@ import useBoardStore from "../store/boardStore";
 import useAuthStore from "../store/authStore";
 import { useNavigate } from "react-router-dom";
 import Footer from "../components/Common/Footer";
+import { Trash2 } from "lucide-react";
 
 export default function Dashboard() {
   const { logout } = useAuthStore();
@@ -239,6 +240,22 @@ export default function Dashboard() {
   };
 
   // ==========================
+  // ✅ DELETE BOARD
+  // ==========================
+  const handleDeleteBoard = async (e, boardId) => {
+    e.stopPropagation(); // Prevent card click
+    if (!window.confirm("Are you sure you want to delete this board?")) return;
+
+    try {
+      await API.delete(`/board/delete/${boardId}`);
+      setBoards(boards.filter((b) => b._id !== boardId));
+    } catch (err) {
+      console.log("DELETE ERROR:", err.response?.data || err);
+      alert("Failed to delete board");
+    }
+  };
+
+  // ==========================
   // ✅ LOGOUT
   // ==========================
   const handleLogout = async () => {
@@ -264,7 +281,7 @@ export default function Dashboard() {
     <div className="min-h-screen flex flex-col bg-black text-white">
 
       {/* 🔥 NAVBAR */}
-      <div className="flex justify-between items-center px-6 py-4 border-b border-white/10 bg-[#111111]">
+      <div className="flex justify-between items-center px-4 sm:px-6 py-4 border-b border-white/10 bg-[#111111]">
 
         <div 
           onClick={() => navigate("/dashboard")} 
@@ -280,8 +297,8 @@ export default function Dashboard() {
           </h1>
         </div>
 
-        <div className="flex items-center gap-4">
-          <span className="text-sm text-gray-300">
+        <div className="flex items-center gap-3">
+          <span className="hidden sm:block text-sm text-gray-300">
             {user?.name || "User"}
           </span>
 
@@ -295,45 +312,51 @@ export default function Dashboard() {
       </div>
 
       {/* 🔥 CONTENT */}
-      <div className="p-6 min-h-[100vh]">
+      <div className="p-4 sm:p-6 min-h-[100vh]">
 
         {/* HEADER */}
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-semibold">
+          <h2 className="text-xl sm:text-2xl font-semibold">
             Your Boards
           </h2>
-
-
         </div>
 
         {/* BOARDS GRID */}
-        <div className="grid grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
 
           {/* EXISTING BOARDS */}
           {boards?.map((b) => (
             <div
               key={b._id}
               onClick={() => navigate(`/board/${b._id}`)}
-              className="bg-[#0f0f0f] border border-white/10 p-5 rounded-xl cursor-pointer
+              className="relative group bg-[#0f0f0f] border border-white/10 p-5 rounded-xl cursor-pointer
               hover:bg-[#1a1a1a] hover:border-white/30 transition"
             >
-              <h3 className="text-lg font-semibold mb-2">
+              <h3 className="text-lg font-semibold mb-2 pr-8 truncate">
                 {b.title}
               </h3>
 
               <p className="text-sm text-gray-400">
                 Open board →
               </p>
+
+              <button
+                onClick={(e) => handleDeleteBoard(e, b._id)}
+                className="absolute top-3 right-3 text-gray-500 hover:text-red-500 opacity-0 group-hover:opacity-100 hover:bg-white/10 p-1.5 rounded transition-all duration-200"
+                title="Delete Board"
+              >
+                <Trash2 className="w-4 h-4" />
+              </button>
             </div>
           ))}
 
           {/* ADD NEW BOARD CARD */}
           <div
             onClick={() => setShowModal(true)}
-            className="flex items-center justify-center border-2 border-dashed
-            border-white/20 rounded-xl cursor-pointer hover:bg-[#0f0f0f] hover:border-white/40 transition"
+            className="flex items-center justify-center min-h-[100px] border-2 border-dashed
+            border-white/20 rounded-xl cursor-pointer hover:bg-[#0f0f0f] hover:border-white/40 transition p-5"
           >
-            <span className="text-gray-400">+ New Board</span>
+            <span className="text-gray-400 text-sm">+ New Board</span>
           </div>
 
         </div>
@@ -343,7 +366,7 @@ export default function Dashboard() {
       {showModal && (
         <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
 
-          <div className="bg-[#0a0a0a] border border-white/10 p-6 rounded-xl w-[350px] shadow-2xl">
+          <div className="bg-[#0a0a0a] border border-white/10 p-6 rounded-xl w-[90vw] max-w-[380px] shadow-2xl">
 
             <h2 className="text-lg font-semibold mb-4 text-white">
               Create New Board

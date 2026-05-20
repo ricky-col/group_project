@@ -23,7 +23,18 @@ export default function Board() {
   const fetchLists = async () => {
     try {
       const res = await API.get(`/list/get/${boardId}`);
-      setLists(res.data.payload);
+      const fetchedLists = res.data.payload;
+      setLists(fetchedLists);
+      
+      // Fetch cards for each list to ensure cards are in sync
+      fetchedLists.forEach(async (list) => {
+        try {
+          const cardRes = await API.get(`/card/get/${list._id}`);
+          setCardsByList(list._id, cardRes.data.payload);
+        } catch (cardErr) {
+          console.error(`Failed to fetch cards for list ${list._id}:`, cardErr);
+        }
+      });
     } catch (err) {
       console.log(err);
     }
@@ -75,11 +86,41 @@ export default function Board() {
       fetchLists();
     });
 
+    socket.on("cardReordered", () => {
+      fetchLists();
+    });
+
+    socket.on("listCreated", () => {
+      fetchLists();
+    });
+
+    socket.on("listDeleted", () => {
+      fetchLists();
+    });
+
+    socket.on("listUpdated", () => {
+      fetchLists();
+    });
+
+    socket.on("listReordered", () => {
+      fetchLists();
+    });
+
+    socket.on("boardUpdated", () => {
+      fetchBoard();
+    });
+
     return () => {
       socket.off("cardCreated");
       socket.off("cardUpdated");
       socket.off("cardDeleted");
       socket.off("cardMoved");
+      socket.off("cardReordered");
+      socket.off("listCreated");
+      socket.off("listDeleted");
+      socket.off("listUpdated");
+      socket.off("listReordered");
+      socket.off("boardUpdated");
     };
   }, [boardId]);
 
@@ -247,7 +288,7 @@ const handleDragEnd = async (event) => {
       <div className="flex flex-col">
 
         {/* ✅ HEADER */}
-        <BoardHeader title={board?.title} boardId={boardId} />
+        <BoardHeader board={board} boardId={boardId} onBoardUpdate={fetchBoard} />
 
         {/* BOARD */}
         <div

@@ -546,7 +546,9 @@ boardRouter.get("/get", authMiddleware, async (req, res) => {
 // ==========================
 boardRouter.get("/get/:id", authMiddleware, async (req, res) => {
   try {
-    const board = await BoardModel.findById(req.params.id);
+    const board = await BoardModel.findById(req.params.id)
+      .populate("owner", "name email")
+      .populate("members", "name email");
 
     if (!board) {
       return res.status(404).json({ message: "Board not found" });

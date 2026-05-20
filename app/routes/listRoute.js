@@ -7,8 +7,6 @@ export const listRouter = exp.Router();
 
 
 
-const io = getIO();
-
 listRouter.delete("/delete/:id", authMiddleware, async (req, res) => {
   try {
     const activeCards = await CardModel.countDocuments({
@@ -63,10 +61,11 @@ listRouter.post("/create", authMiddleware, async (req, res) => {
 
     // ✅ SAFE SOCKET
     try {
+      const io = getIO();
       if (list.boardId) io.to(list.boardId.toString()).emit("listCreated", list);
       else io.emit("listCreated", list);
     } catch (err) {
-      console.log("Socket not ready");
+      console.log("Socket not ready", err);
     }
 
     res.status(201).json({
@@ -133,12 +132,17 @@ listRouter.put("/update/:id",authMiddleware,async(req,res)=>{
         let {title} = req.body;
 
         const updatedList = await ListModel.findByIdAndUpdate(id,{title},{new:true})
-        if (updatedList.boardId) io.to(updatedList.boardId.toString()).emit("listUpdated", updatedList);
-        else io.emit("listUpdated", updatedList);
-
-        if(!updatedList)
+        if (!updatedList)
         {
             return res.status(404).json({message:"List not found"})
+        }
+
+        try {
+          const io = getIO();
+          if (updatedList.boardId) io.to(updatedList.boardId.toString()).emit("listUpdated", updatedList);
+          else io.emit("listUpdated", updatedList);
+        } catch (err) {
+          console.log("Socket emit listUpdated failed", err);
         }
 
         res.status(200).json({
@@ -174,13 +178,19 @@ listRouter.delete("/:id", authMiddleware, async (req, res) => {
       { isDeleted: true },
       { new: true }
     );
-    if (list.boardId) io.to(list.boardId.toString()).emit("listDeleted", list);
-    else io.emit("listDeleted", list);
 
     if (!list) {
       return res.status(404).json({
         message: "List not found"
       });
+    }
+
+    try {
+      const io = getIO();
+      if (list.boardId) io.to(list.boardId.toString()).emit("listDeleted", list);
+      else io.emit("listDeleted", list);
+    } catch (err) {
+      console.log("Socket emit listDeleted failed", err);
     }
 
     res.status(200).json({
