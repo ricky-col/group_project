@@ -14,7 +14,13 @@ const userSchema = new Schema({
     password:{
         type:String,
         required:true
-    }
+    },
+    starredBoards: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: "Board"
+        }
+    ]
 },{
     timestamps:true
 })

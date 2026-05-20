@@ -71,8 +71,6 @@ authRouter.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    console.log("LOGIN BODY:", req.body); // 🔥 DEBUG
-
     const user = await UserModel.findOne({ email });
 
     if (!user) {
@@ -108,7 +106,7 @@ authRouter.post("/login", async (req, res) => {
       },
     });
   } catch (err) {
-    console.log("🔥 LOGIN ERROR:", err); // VERY IMPORTANT
+    console.log("Login error:", err);
     res.status(500).json({ message: err.message });
   }
 });

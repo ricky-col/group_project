@@ -464,6 +464,7 @@
 
 import exp from "express";
 import BoardModel from "../models/Board.js";
+import UserModel from "../models/User.js";
 import { authMiddleware } from "../middleware/authmiddleware.js";
 import { getIO } from "../socket.js";
 import { v4 as uuidv4 } from "uuid";
@@ -471,13 +472,107 @@ import { sendInviteMail } from "../utils/sendMail.js";
 
 const boardRouter = exp.Router();
 
-// ==========================
-// ✅ CREATE BOARD
-// ==========================
+// get all members across user's boards
+boardRouter.get("/members", authMiddleware, async (req, res) => {
+  try {
+    const userId = req.user.userID;
+
+    const boards = await BoardModel.find({
+      $or: [{ owner: userId }, { members: userId }],
+      isDeleted: false
+    })
+      .populate("owner", "name email")
+      .populate("members", "name email");
+
+    // build map of unique users -> their boards
+    const memberMap = {};
+
+    for (const board of boards) {
+      if (board.owner) {
+        const oid = board.owner._id.toString();
+        if (!memberMap[oid]) {
+          memberMap[oid] = {
+            _id: oid,
+            name: board.owner.name,
+            email: board.owner.email,
+            boards: []
+          };
+        }
+        memberMap[oid].boards.push({ _id: board._id, title: board.title });
+      }
+
+      for (const m of board.members || []) {
+        const mid = m._id.toString();
+        if (!memberMap[mid]) {
+          memberMap[mid] = {
+            _id: mid,
+            name: m.name,
+            email: m.email,
+            boards: []
+          };
+        }
+        if (!memberMap[mid].boards.find(b => b._id.toString() === board._id.toString())) {
+          memberMap[mid].boards.push({ _id: board._id, title: board.title });
+        }
+      }
+    }
+
+    res.json({
+      message: "Members fetched",
+      members: Object.values(memberMap)
+    });
+
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "Error fetching members" });
+  }
+});
+
+// get starred board ids for current user
+boardRouter.get("/starred", authMiddleware, async (req, res) => {
+  try {
+    const user = await UserModel.findById(req.user.userID).select("starredBoards");
+    res.json({
+      message: "Starred boards fetched",
+      starredBoardIds: user?.starredBoards || []
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "Error fetching starred boards" });
+  }
+});
+
+// toggle star/unstar a board
+boardRouter.put("/star/:id", authMiddleware, async (req, res) => {
+  try {
+    const boardId = req.params.id;
+    const userId = req.user.userID;
+
+    const user = await UserModel.findById(userId);
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    const index = user.starredBoards.indexOf(boardId);
+    if (index === -1) {
+      user.starredBoards.push(boardId);
+    } else {
+      user.starredBoards.splice(index, 1);
+    }
+
+    await user.save();
+
+    res.json({
+      message: index === -1 ? "Board starred" : "Board unstarred",
+      starredBoardIds: user.starredBoards
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "Error toggling star" });
+  }
+});
+
+// create board
 boardRouter.post("/create", authMiddleware, async (req, res) => {
   try {
-    console.log("REQ.USER:", req.user);
-
     const { title } = req.body;
 
     if (!title) {
@@ -496,7 +591,6 @@ boardRouter.post("/create", authMiddleware, async (req, res) => {
 
     await board.save();
 
-    // ✅ safe socket emit
     try {
       const io = getIO();
       io.emit("boardCreated", board);
@@ -510,14 +604,12 @@ boardRouter.post("/create", authMiddleware, async (req, res) => {
     });
 
   } catch (err) {
-    console.log("🔥 CREATE ERROR:", err);
+    console.log(err);
     res.status(500).json({ message: err.message });
   }
 });
 
-// ==========================
-// ✅ GET BOARDS
-// ==========================
+// get all boards for current user
 boardRouter.get("/get", authMiddleware, async (req, res) => {
   try {
     const userId = req.user.userID;
@@ -541,9 +633,7 @@ boardRouter.get("/get", authMiddleware, async (req, res) => {
   }
 });
 
-// ==========================
-// ✅ GET SINGLE BOARD
-// ==========================
+// get single board by id
 boardRouter.get("/get/:id", authMiddleware, async (req, res) => {
   try {
     const board = await BoardModel.findById(req.params.id)
@@ -564,9 +654,7 @@ boardRouter.get("/get/:id", authMiddleware, async (req, res) => {
   }
 });
 
-// ==========================
-// ✅ DELETE BOARD
-// ==========================
+// soft delete board
 boardRouter.delete("/delete/:id", authMiddleware, async (req, res) => {
   try {
     const board = await BoardModel.findByIdAndUpdate(
@@ -594,9 +682,7 @@ boardRouter.delete("/delete/:id", authMiddleware, async (req, res) => {
   }
 });
 
-// ==========================
-// ✅ UPDATE BOARD
-// ==========================
+// update board
 boardRouter.put("/:id", authMiddleware, async (req, res) => {
   try {
     const { title, members } = req.body;
@@ -626,9 +712,7 @@ boardRouter.put("/:id", authMiddleware, async (req, res) => {
   }
 });
 
-// ==========================
-// ✅ SEND INVITE
-// ==========================
+// send board invite email
 boardRouter.post("/invite", authMiddleware, async (req, res) => {
   try {
     const { email, boardId } = req.body;
@@ -653,9 +737,7 @@ boardRouter.post("/invite", authMiddleware, async (req, res) => {
   }
 });
 
-// ==========================
-// ✅ ACCEPT INVITE
-// ==========================
+// accept invite and join board
 boardRouter.post("/accept-invite", authMiddleware, async (req, res) => {
   try {
     const { token } = req.body;

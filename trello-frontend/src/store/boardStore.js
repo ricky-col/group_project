@@ -119,13 +119,11 @@
 import { create } from "zustand";
 
 const useBoardStore = create((set) => ({
-  // ✅ ADD THIS
   boards: [],
 
   lists: [],
   cards: {},
 
-  // ✅ ADD THIS
   setBoards: (boards) => set({ boards }),
 
   setLists: (lists) => set({ lists }),
