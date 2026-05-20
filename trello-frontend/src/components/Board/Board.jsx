@@ -7,8 +7,8 @@ import AddList from "../List/AddList";
 import socket from "../../services/Socket";
 // import { DndContext } from "@dnd-kit/core";
 import BoardHeader from "./BoardHeader";
-import {DndContext,closestCenter} from "@dnd-kit/core";
-import {SortableContext,horizontalListSortingStrategy} from "@dnd-kit/sortable";
+import { DndContext, closestCenter } from "@dnd-kit/core";
+import { SortableContext, horizontalListSortingStrategy } from "@dnd-kit/sortable";
 import { arrayMove } from "@dnd-kit/sortable";
 import Footer from "../Common/Footer";
 import CardModal from "../Card/CardModal";
@@ -25,7 +25,7 @@ export default function Board() {
       const res = await API.get(`/list/get/${boardId}`);
       const fetchedLists = res.data.payload;
       setLists(fetchedLists);
-      
+
       // Fetch cards for each list to ensure cards are in sync
       fetchedLists.forEach(async (list) => {
         try {
@@ -60,7 +60,7 @@ export default function Board() {
     socket.on("cardCreated", (newCard) => {
       // ✅ ENSURE STRING ID
       const listId = String(newCard.listId);
-      
+
       setCardsByList(listId, (prev = []) => {
         // ✅ PREVENT DUPLICATES (if AddCard already added it)
         if (prev.find((c) => c._id === newCard._id)) return prev;
@@ -190,99 +190,99 @@ export default function Board() {
   //   }
   // };
 
-const handleDragEnd = async (event) => {
-  const { active, over } = event;
-  if (!over) return;
+  const handleDragEnd = async (event) => {
+    const { active, over } = event;
+    if (!over) return;
 
-  // ==========================
-  // ✅ LIST DRAG LOGIC (NEW)
-  // ==========================
-  if (!active.data.current && !over.data?.current) {
-    const oldIndex = lists.findIndex((l) => l._id === active.id);
-    const newIndex = lists.findIndex((l) => l._id === over.id);
+    // ==========================
+    // ✅ LIST DRAG LOGIC (NEW)
+    // ==========================
+    if (!active.data.current && !over.data?.current) {
+      const oldIndex = lists.findIndex((l) => l._id === active.id);
+      const newIndex = lists.findIndex((l) => l._id === over.id);
 
-    if (oldIndex === -1 || newIndex === -1) return;
+      if (oldIndex === -1 || newIndex === -1) return;
 
-    if (oldIndex !== newIndex) {
-      const newLists = arrayMove(lists, oldIndex, newIndex);
-      setLists(newLists);
+      if (oldIndex !== newIndex) {
+        const newLists = arrayMove(lists, oldIndex, newIndex);
+        setLists(newLists);
 
-      API.put("/list/reorder", {
-        listId: active.id,
-        newPosition: newIndex,
-      }).catch(err => console.error("Failed to reorder list:", err));
+        API.put("/list/reorder", {
+          listId: active.id,
+          newPosition: newIndex,
+        }).catch(err => console.error("Failed to reorder list:", err));
+      }
+
+      return; // 🔥 IMPORTANT (stop here for list drag)
     }
 
-    return; // 🔥 IMPORTANT (stop here for list drag)
-  }
+    // ==========================
+    // ✅ CARD DRAG (YOUR EXISTING CODE)
+    // ==========================
+    const activeCard = active.data.current;
+    if (!activeCard) return;
 
-  // ==========================
-  // ✅ CARD DRAG (YOUR EXISTING CODE)
-  // ==========================
-  const activeCard = active.data.current;
-  if (!activeCard) return;
+    const sourceListId = activeCard.listId;
+    const targetListId =
+      over.data?.current?.listId || over.id;
 
-  const sourceListId = activeCard.listId;
-  const targetListId =
-    over.data?.current?.listId || over.id;
+    // SAME LIST
+    if (sourceListId === targetListId) {
+      const listCards = cards[sourceListId] || [];
 
-  // SAME LIST
-  if (sourceListId === targetListId) {
-    const listCards = cards[sourceListId] || [];
+      const oldIndex = listCards.findIndex(
+        (c) => c._id === activeCard._id
+      );
 
-    const oldIndex = listCards.findIndex(
-      (c) => c._id === activeCard._id
-    );
-
-    const newIndex = over.data?.current
-      ? listCards.findIndex(
+      const newIndex = over.data?.current
+        ? listCards.findIndex(
           (c) => c._id === over.data.current._id
         )
-      : listCards.length;
+        : listCards.length;
 
-    if (oldIndex === -1) return;
+      if (oldIndex === -1) return;
 
-    const updated = [...listCards];
-    const [moved] = updated.splice(oldIndex, 1);
-    updated.splice(newIndex, 0, moved);
+      const updated = [...listCards];
+      const [moved] = updated.splice(oldIndex, 1);
+      updated.splice(newIndex, 0, moved);
 
-    setCardsByList(sourceListId, updated);
+      setCardsByList(sourceListId, updated);
 
-    await API.put("/card/reorder", {
-      cardId: activeCard._id,
-      newPosition: newIndex,
-    });
+      await API.put("/card/reorder", {
+        cardId: activeCard._id,
+        newPosition: newIndex,
+      });
 
-  } else {
-    // DIFFERENT LIST
-    const sourceCards = cards[sourceListId] || [];
-    const targetCards = cards[targetListId] || [];
+    } else {
+      // DIFFERENT LIST
+      const sourceCards = cards[sourceListId] || [];
+      const targetCards = cards[targetListId] || [];
 
-    const movedCard = sourceCards.find(
-      (c) => c._id === activeCard._id
-    );
+      const movedCard = sourceCards.find(
+        (c) => c._id === activeCard._id
+      );
 
-    if (!movedCard) return;
+      if (!movedCard) return;
 
-    const updatedSource = sourceCards.filter(
-      (c) => c._id !== activeCard._id
-    );
+      const updatedSource = sourceCards.filter(
+        (c) => c._id !== activeCard._id
+      );
 
-    const updatedTarget = [
-      ...targetCards,
-      { ...movedCard, listId: targetListId },
-    ];
+      const updatedTarget = [
+        ...targetCards,
+        { ...movedCard, listId: targetListId },
+      ];
 
-    setCardsByList(sourceListId, updatedSource);
-    setCardsByList(targetListId, updatedTarget);
+      setCardsByList(sourceListId, updatedSource);
+      setCardsByList(targetListId, updatedTarget);
 
-    await API.put("/card/move", {
-      cardId: activeCard._id,
-      newListId: targetListId,
-      newPosition: targetCards.length,
-    });
-  }
-};
+      await API.put("/card/move", {
+        cardId: activeCard._id,
+        newListId: targetListId,
+        newPosition: targetCards.length,
+      });
+    }
+  };
   return (
     <DndContext onDragEnd={handleDragEnd}>
       <div className="flex flex-col">
@@ -298,19 +298,19 @@ const handleDragEnd = async (event) => {
               "url('https://images.pexels.com/photos/733174/pexels-photo-733174.jpeg')",
           }}
         >
-<SortableContext
-  items={lists.map((l) => l._id)}
-  strategy={horizontalListSortingStrategy}
->
-  {lists.map((list) => (
-    <List 
-      key={list._id} 
-      list={list} 
-      boardId={boardId} 
-      onCardClick={(card) => setSelectedCard(card)}
-    />
-  ))}
-</SortableContext>
+          <SortableContext
+            items={lists.map((l) => l._id)}
+            strategy={horizontalListSortingStrategy}
+          >
+            {lists.map((list) => (
+              <List
+                key={list._id}
+                list={list}
+                boardId={boardId}
+                onCardClick={(card) => setSelectedCard(card)}
+              />
+            ))}
+          </SortableContext>
 
           <AddList boardId={boardId} />
         </div>
