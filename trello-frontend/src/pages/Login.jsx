@@ -27,6 +27,7 @@ export default function Login() {
       }
     } catch (err) {
       console.log(err);
+      alert("Login failed: " + (err.response?.data?.message || "Unknown error"));
     }
   };
 
