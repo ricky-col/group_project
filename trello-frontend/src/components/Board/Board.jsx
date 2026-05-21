@@ -285,14 +285,14 @@ export default function Board() {
   };
   return (
     <DndContext onDragEnd={handleDragEnd}>
-      <div className="flex flex-col">
+      <div className="flex flex-col h-screen overflow-hidden">
 
         {/* ✅ HEADER */}
         <BoardHeader board={board} boardId={boardId} onBoardUpdate={fetchBoard} />
 
         {/* BOARD */}
         <div
-          className="flex items-start gap-6 p-6 overflow-x-auto min-h-[100vh] bg-cover bg-center"
+          className="flex-1 flex items-start gap-4 sm:gap-6 p-4 sm:p-6 overflow-x-auto overflow-y-hidden bg-cover bg-center"
           style={{
             backgroundImage:
               "url('https://images.pexels.com/photos/733174/pexels-photo-733174.jpeg')",

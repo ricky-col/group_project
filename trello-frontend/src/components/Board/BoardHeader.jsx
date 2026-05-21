@@ -168,7 +168,7 @@ export default function BoardHeader({ board, boardId, onBoardUpdate }) {
 
   return (
     <>
-      <header className="w-full relative z-[50] flex items-center justify-between px-2 sm:px-4 py-2 sm:py-2.5 bg-slate-900 border-b border-slate-800 text-slate-200 shadow-md">
+      <header className="w-full relative z-[50] flex flex-wrap sm:flex-nowrap items-center justify-between gap-y-2 px-2 sm:px-4 py-2 sm:py-2.5 bg-slate-900 border-b border-slate-800 text-slate-200 shadow-md">
 
         {/* LEFT: Board Title & Icons */}
         <div className="flex items-center gap-0.5 sm:gap-1 min-w-0">
