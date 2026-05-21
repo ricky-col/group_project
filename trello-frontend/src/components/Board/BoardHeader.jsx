@@ -103,6 +103,7 @@ export default function BoardHeader({ board, boardId, onBoardUpdate }) {
     } catch (err) {
       console.error(err);
       setInviteStatus("error");
+      alert("Failed to send invite: " + (err.response?.data?.message || "Unknown error"));
       setTimeout(() => setInviteStatus(null), 3000);
     }
   };

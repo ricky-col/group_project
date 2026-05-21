@@ -733,7 +733,7 @@ boardRouter.post("/invite", authMiddleware, async (req, res) => {
 
   } catch (err) {
     console.log(err);
-    res.status(500).json({ message: "Error sending invite" });
+    res.status(500).json({ message: err.message || "Error sending invite", error: String(err) });
   }
 });
 
