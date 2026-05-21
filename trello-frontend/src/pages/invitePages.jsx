@@ -106,11 +106,28 @@ export default function InvitePage() {
   };
 
   return (
-    <div className="h-screen flex flex-col items-center justify-center gap-4">
-      <h2>Please login to join this board</h2>
+    <div className="h-screen flex flex-col items-center justify-center gap-6 bg-[#091e42] text-white">
+      <div className="bg-white/10 p-8 rounded-lg shadow-xl backdrop-blur-md flex flex-col items-center border border-white/20">
+        <h2 className="text-2xl font-bold mb-2">Board Invitation</h2>
+        <p className="text-gray-300 mb-6 text-center max-w-sm">
+          You've been invited to collaborate on a Trello board. Please login or accept the invite to join.
+        </p>
 
-      <button onClick={goToLogin}>Login</button>
-      <button onClick={handleAccept}>Accept Invite</button>
+        <div className="flex gap-4 w-full justify-center">
+          <button 
+            onClick={goToLogin} 
+            className="bg-gray-700 hover:bg-gray-600 transition px-6 py-2 rounded font-medium shadow-md w-32"
+          >
+            Login
+          </button>
+          <button 
+            onClick={handleAccept} 
+            className="bg-blue-600 hover:bg-blue-500 transition px-6 py-2 rounded font-medium shadow-md w-36"
+          >
+            Accept Invite
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
