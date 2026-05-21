@@ -321,8 +321,6 @@ export default function Board() {
           onClose={() => setSelectedCard(null)}
         />
 
-        {/* 🔥 FOOTER */}
-        <Footer isTransparent={true} />
       </div>
     </DndContext>
   );
