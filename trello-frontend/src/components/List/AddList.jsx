@@ -75,7 +75,7 @@ const handleAdd = async () => {
 };
 
   return (
-    <div className="w-72">
+    <div className="w-full sm:w-[272px] flex-shrink-0">
       {isAdding ? (
         <div className="bg-black/70 backdrop-blur-md p-3 rounded-xl">
           <input

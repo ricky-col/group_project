@@ -292,7 +292,7 @@ export default function Board() {
 
         {/* BOARD */}
         <div
-          className="flex-1 flex items-start gap-4 sm:gap-6 p-4 sm:p-6 overflow-x-auto overflow-y-hidden bg-cover bg-center"
+          className="flex-1 flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6 p-4 sm:p-6 overflow-y-auto sm:overflow-y-hidden overflow-x-hidden sm:overflow-x-auto bg-cover bg-center"
           style={{
             backgroundImage:
               "url('https://images.pexels.com/photos/733174/pexels-photo-733174.jpeg')",

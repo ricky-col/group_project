@@ -67,7 +67,7 @@ export default function List({ list, boardId, onCardClick }) {
       ref={setNodeRef}
       style={style}
       className={`
-        w-[272px] flex-shrink-0 flex flex-col rounded-2xl
+        w-full sm:w-[272px] flex-shrink-0 flex flex-col rounded-2xl
         bg-[#161b27]/85 backdrop-blur-2xl
         border border-white/[0.08]
         shadow-[0_4px_24px_rgba(0,0,0,0.45)]
