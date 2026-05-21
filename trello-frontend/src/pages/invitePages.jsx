@@ -86,7 +86,8 @@ export default function InvitePage() {
       await API.post("/board/accept-invite", { token });
 
       localStorage.removeItem("inviteToken");
-
+      
+      alert("Successfully joined board! ✅");
       window.location.href = "/dashboard";
 
     } catch (err) {
@@ -95,6 +96,7 @@ export default function InvitePage() {
       // ✅ IMPORTANT: handle already-used invite
       if (msg === "Invalid invite") {
         localStorage.removeItem("inviteToken");
+        alert("This invite link is invalid or has already been used.");
         window.location.href = "/dashboard";
         return;
       }
@@ -102,19 +104,11 @@ export default function InvitePage() {
       console.log("API ERROR:", err);
       if (err.response?.status === 401) {
         goToLogin();
+      } else {
+        alert("Failed to join board: " + (msg || "Unknown error"));
       }
     }
   };
-
-  useEffect(() => {
-    const user = localStorage.getItem("user");
-
-    // ✅ RUN ONLY ONCE
-    if (user && token && !hasRun.current) {
-      hasRun.current = true;
-      handleAccept();
-    }
-  }, []);
 
   return (
     <div className="h-screen flex flex-col items-center justify-center gap-6 bg-[#091e42] text-white">
