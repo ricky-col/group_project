@@ -66,7 +66,20 @@ export default function InvitePage() {
   const navigate = useNavigate();
   const hasRun = useRef(false);
 
+  const goToLogin = () => {
+    localStorage.setItem("inviteToken", token);
+    navigate("/login");
+  };
+
   const handleAccept = async () => {
+    const user = localStorage.getItem("user");
+    
+    // If they click Accept Invite but are not logged in, redirect them to login first
+    if (!user) {
+      goToLogin();
+      return;
+    }
+
     try {
       console.log("Calling accept API...");
 
@@ -87,6 +100,9 @@ export default function InvitePage() {
       }
 
       console.log("API ERROR:", err);
+      if (err.response?.status === 401) {
+        goToLogin();
+      }
     }
   };
 
@@ -99,11 +115,6 @@ export default function InvitePage() {
       handleAccept();
     }
   }, []);
-
-  const goToLogin = () => {
-    localStorage.setItem("inviteToken", token);
-    navigate("/login");
-  };
 
   return (
     <div className="h-screen flex flex-col items-center justify-center gap-6 bg-[#091e42] text-white">
