@@ -1,2 +1,13 @@
 /* Clear index.css as requested */
 @import "tailwindcss";
+
+/* Ensure text editor toolbar wraps on mobile screens */
+.ql-toolbar.ql-snow {
+  display: flex !important;
+  flex-wrap: wrap !important;
+}
+
+/* Ensure long words break instead of stretching containers */
+.break-words-all {
+  word-break: break-all;
+}

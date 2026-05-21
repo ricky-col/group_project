@@ -367,9 +367,9 @@ export default function CardModal({ card, onClose }) {
         >
 
           {/* HEADER */}
-          <div className="flex justify-between mb-3">
-            <h2>{card.title}</h2>
-            <button onClick={onClose}>✕</button>
+          <div className="flex justify-between items-start mb-3 gap-2">
+            <h2 className="text-lg font-bold break-words-all">{card.title}</h2>
+            <button onClick={onClose} className="p-1 hover:bg-white/10 rounded flex-shrink-0">✕</button>
           </div>
 
           {/* LABELS UI */}
