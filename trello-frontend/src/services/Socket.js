@@ -1,6 +1,6 @@
 import { io } from "socket.io-client";
 
-const socket = io("http://localhost:3333", {
+const socket = io("https://group-project1-5ai9.onrender.com", {
   withCredentials: true,
   
 });
