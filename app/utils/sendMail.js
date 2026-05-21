@@ -7,6 +7,8 @@ export const sendInviteMail = async (email, link) => {
       user: process.env.EMAIL,
       pass: process.env.EMAIL_PASS,
     },
+    connectionTimeout: 10000, // fail after 10 seconds instead of hanging
+    socketTimeout: 10000,
   });
 
   await transporter.sendMail({

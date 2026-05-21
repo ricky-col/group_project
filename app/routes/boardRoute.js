@@ -725,7 +725,7 @@ boardRouter.post("/invite", authMiddleware, async (req, res) => {
       }
     });
 
-    const inviteLink = `http://localhost:5173/invite/${token}`;
+    const inviteLink = `https://group-project-1ep9.onrender.com/invite/${token}`;
 
     await sendInviteMail(email, inviteLink);
 
