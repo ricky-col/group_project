@@ -101,7 +101,7 @@ const app = express();
 // cors
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: ["http://localhost:5173","https://group-project-1ep9.onrender.com"],
     credentials: true,
   })
 );
