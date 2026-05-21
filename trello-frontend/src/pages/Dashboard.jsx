@@ -92,6 +92,7 @@ export default function Dashboard() {
       setTitle("");
     } catch (err) {
       console.log("create error:", err.response?.data || err);
+      alert(err.response?.data?.message || "Error creating board. Please try again.");
     }
   };
 
