@@ -358,9 +358,9 @@ export default function CardModal({ card, onClose }) {
       ></div>
 
       {/* MODAL */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[95vw] sm:w-[550px] max-w-[550px] max-h-[95vh] overflow-y-auto rounded-xl">
         <div
-          className="bg-[#1e293b] w-[550px] p-6 rounded-xl text-white shadow-2xl border border-white/10"
+          className="bg-[#1e293b] w-full p-4 sm:p-6 text-white shadow-2xl border border-white/10 min-h-full"
           onMouseDown={(e) => e.stopPropagation()}
           onClick={(e) => e.stopPropagation()}
           onKeyDown={(e) => e.stopPropagation()}
