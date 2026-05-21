@@ -86,30 +86,28 @@ export default function BoardHeader({ board, boardId, onBoardUpdate }) {
     }
   };
 
-  const [generatedLink, setGeneratedLink] = useState("");
-  const [copySuccess, setCopySuccess] = useState(false);
+  const [email, setEmail] = useState("");
 
   const handleInvite = async (e) => {
     e.preventDefault();
+    if (!email) return;
+
     setInviteStatus("sending");
     try {
-      const res = await API.post("/board/invite", { boardId });
-      setGeneratedLink(res.data.inviteLink);
+      await API.post("/board/invite", {
+        email,
+        boardId,
+      });
       setInviteStatus("success");
+      setEmail("");
       setTimeout(() => setInviteStatus(null), 3000);
       if (onBoardUpdate) onBoardUpdate();
     } catch (err) {
       console.error(err);
       setInviteStatus("error");
-      alert("Failed to generate link: " + (err.response?.data?.message || "Unknown error"));
+      alert("Failed to send invite: " + (err.response?.data?.message || "Unknown error"));
       setTimeout(() => setInviteStatus(null), 3000);
     }
-  };
-
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(generatedLink);
-    setCopySuccess(true);
-    setTimeout(() => setCopySuccess(false), 2000);
   };
 
   const handleRenameSubmit = async () => {
@@ -360,43 +358,35 @@ export default function BoardHeader({ board, boardId, onBoardUpdate }) {
 
               {showShareMenu && (
                 <div className="absolute right-0 mt-2.5 w-72 bg-white rounded-md shadow-2xl overflow-hidden py-3 px-4 text-gray-700 z-50">
-                  <h3 className="font-semibold text-sm mb-3">Share Board Link</h3>
-                  {!generatedLink ? (
+                  <h3 className="font-semibold text-sm mb-3">Share Board</h3>
+                  <form onSubmit={handleInvite} className="flex items-center gap-2">
+                    <div className="relative flex-1">
+                      <Mail className="absolute left-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                      <input
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="Email address..."
+                        className="w-full bg-gray-50 border border-gray-200 text-sm text-gray-800 rounded px-3 py-1.5 pl-9 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all"
+                        required
+                      />
+                    </div>
                     <button
-                      onClick={handleInvite}
+                      type="submit"
                       disabled={inviteStatus === "sending"}
-                      className="w-full bg-blue-600 hover:bg-blue-700 text-white rounded px-3 py-2 text-sm font-medium transition disabled:opacity-50 flex justify-center items-center"
+                      className="bg-blue-600 hover:bg-blue-700 text-white rounded px-3 py-1.5 text-sm font-medium transition disabled:opacity-50 min-w-[70px] flex justify-center items-center h-8"
                     >
                       {inviteStatus === "sending" ? (
                         <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                      ) : inviteStatus === "success" ? (
+                        <Check className="w-4 h-4" />
+                      ) : inviteStatus === "error" ? (
+                        <X className="w-4 h-4" />
                       ) : (
-                        "Generate Invite Link"
+                        "Invite"
                       )}
                     </button>
-                  ) : (
-                    <div className="flex flex-col gap-2">
-                      <div className="flex items-center gap-2">
-                        <input
-                          type="text"
-                          readOnly
-                          value={generatedLink}
-                          className="w-full bg-gray-50 border border-gray-200 text-xs text-gray-800 rounded px-2 py-1.5 focus:outline-none"
-                        />
-                        <button
-                          onClick={copyToClipboard}
-                          className="bg-gray-200 hover:bg-gray-300 text-gray-700 rounded px-3 py-1.5 text-xs font-medium transition whitespace-nowrap"
-                        >
-                          {copySuccess ? "Copied!" : "Copy"}
-                        </button>
-                      </div>
-                      <button
-                        onClick={() => setGeneratedLink("")}
-                        className="text-xs text-blue-600 hover:underline text-center mt-1"
-                      >
-                        Generate another link
-                      </button>
-                    </div>
-                  )}
+                  </form>
                 </div>
               )}
             </div>
