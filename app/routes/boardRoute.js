@@ -712,28 +712,26 @@ boardRouter.put("/:id", authMiddleware, async (req, res) => {
   }
 });
 
-// send board invite email
+// generate board invite link
 boardRouter.post("/invite", authMiddleware, async (req, res) => {
   try {
-    const { email, boardId } = req.body;
+    const { boardId } = req.body;
 
     const token = uuidv4();
 
     await BoardModel.findByIdAndUpdate(boardId, {
       $push: {
-        pendingInvites: { email, token }
+        pendingInvites: { email: "link-share", token }
       }
     });
 
     const inviteLink = `https://group-project-1ep9.onrender.com/invite/${token}`;
 
-    await sendInviteMail(email, inviteLink);
-
-    res.json({ message: "Invite sent" });
+    res.json({ message: "Invite link generated", inviteLink });
 
   } catch (err) {
     console.log(err);
-    res.status(500).json({ message: err.message || "Error sending invite", error: String(err) });
+    res.status(500).json({ message: err.message || "Error generating invite", error: String(err) });
   }
 });
 
