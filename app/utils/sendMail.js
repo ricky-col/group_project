@@ -3,9 +3,10 @@ import nodemailer from "nodemailer";
 export const sendInviteMail = async (email, link) => {
   const transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
-    port: 465,
-    secure: true,
-    family: 4, // Force IPv4 to prevent ENETUNREACH on IPv6 in Render
+    port: 587,
+    secure: false, // upgrade later with STARTTLS
+    requireTLS: true,
+    family: 4,
     auth: {
       user: process.env.EMAIL,
       pass: process.env.EMAIL_PASS,
