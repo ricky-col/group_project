@@ -86,7 +86,6 @@ export default function BoardHeader({ board, boardId, onBoardUpdate }) {
     }
   };
 
-  const [email, setEmail] = useState("");
 
   const handleInvite = async (e) => {
     e.preventDefault();
