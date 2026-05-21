@@ -10,10 +10,10 @@ export default function Landing() {
       {/* 🔥 NAVBAR */}
       <nav className="flex justify-between items-center px-10 py-6 border-b border-white/10 bg-[#0a0a0a]">
         <div className="flex items-center gap-2">
-          <img 
-            src="https://cdn-icons-png.flaticon.com/512/6124/6124991.png" 
-            alt="Logo" 
-            className="w-7 h-7 invert" 
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/6124/6124991.png"
+            alt="Logo"
+            className="w-7 h-7 invert"
           />
           <h1 className="text-xl font-bold tracking-wide">TaskFlow</h1>
         </div>
@@ -40,28 +40,28 @@ export default function Landing() {
         {/* 🔥 HERO */}
         <div className="flex flex-col items-center justify-center text-center px-6 mt-20">
 
-        <h1 className="text-5xl md:text-6xl font-bold leading-tight max-w-3xl text-white">
-          Manage your work
-          <span className="text-gray-400 block mt-2">visually & efficiently</span>
-        </h1>
+          <h1 className="text-5xl md:text-6xl font-bold leading-tight max-w-3xl text-white">
+            Manage your work
+            <span className="text-gray-400 block mt-2">visually & efficiently</span>
+          </h1>
 
-        <p className="text-gray-400 mt-6 max-w-xl text-lg leading-relaxed">
-          Organize tasks, collaborate with your team, and track progress —
-          all in one powerful, distraction-free workspace.
-        </p>
+          <p className="text-gray-400 mt-6 max-w-xl text-lg leading-relaxed">
+            Organize tasks, collaborate with your team, and track progress —
+            all in one powerful, distraction-free workspace.
+          </p>
 
-        <div className="flex gap-4 mt-10">
-          <button
-            onClick={() => navigate("/login")}
-            className="bg-white text-black font-semibold px-8 py-3 rounded-lg hover:bg-gray-200 transition shadow-lg"
-          >
-            Start for Free →
-          </button>
+          <div className="flex gap-4 mt-10">
+            <button
+              onClick={() => navigate("/login")}
+              className="bg-white text-black font-semibold px-8 py-3 rounded-lg hover:bg-gray-200 transition shadow-lg"
+            >
+              Start for Free →
+            </button>
 
-          
+
+          </div>
         </div>
-      </div>
-      
+
       </div>
 
       {/* 🔥 FOOTER */}

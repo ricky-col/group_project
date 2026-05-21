@@ -373,14 +373,14 @@ export default function Dashboard() {
                       <div
                         key={b._id}
                         onClick={() => navigate(`/board/${b._id}`)}
-                        className="group relative rounded-2xl bg-[#0a0a0a] border border-white/[0.07] hover:border-white/[0.14] cursor-pointer overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_16px_48px_-12px_rgba(0,0,0,0.7)] flex flex-col"
+                        className="group relative rounded-2xl bg-[#0a0a0a] border border-white/[0.07] cursor-pointer overflow-hidden flex flex-col"
                       >
                         <div className={`h-20 ${accent} relative overflow-hidden`}>
                           <div className="absolute inset-0 bg-black/20" />
                         </div>
 
                         <div className="px-4 pb-4 pt-1 flex flex-col flex-1">
-                          <h3 className="font-bold text-[14px] text-white truncate mb-3 group-hover:text-blue-300 transition-colors">
+                          <h3 className="font-bold text-[14px] text-white truncate mb-3">
                             {b.title}
                           </h3>
 
@@ -424,7 +424,7 @@ export default function Dashboard() {
                   {sidebarView === "boards" && (
                     <div
                       onClick={() => setShowModal(true)}
-                      className="group relative rounded-2xl border-2 border-dashed border-white/[0.08] hover:border-blue-500/40 bg-white/[0.01] hover:bg-blue-500/[0.04] cursor-pointer transition-all duration-300 hover:-translate-y-1 flex flex-col items-center justify-center min-h-[120px] gap-2 px-4 py-8"
+                      className="group relative rounded-2xl border-2 border-dashed border-white/[0.08] bg-white/[0.01] cursor-pointer flex flex-col items-center justify-center min-h-[120px] gap-2 px-4 py-8"
                     >
                       <div className="w-9 h-9 rounded-full border border-white/10 group-hover:border-blue-500/40 bg-white/[0.04] group-hover:bg-blue-500/10 flex items-center justify-center transition-all">
                         <Plus className="w-4 h-4 text-gray-500 group-hover:text-blue-400 transition-colors" />

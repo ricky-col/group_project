@@ -7,9 +7,21 @@ export default function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleRegister = async () => {
+    setError("");
+
+    if (!name.trim() || !email.trim() || !password) {
+      setError("Please fill in all fields.");
+      return;
+    }
+    if (password.length < 8) {
+      setError("Password must be at least 8 characters.");
+      return;
+    }
+
     try {
       await API.post("/auth/register", {
         name,
@@ -19,6 +31,8 @@ export default function Register() {
 
       navigate("/login");
     } catch (err) {
+      const msg = err.response?.data?.message || "Registration failed. Please try again.";
+      setError(msg);
       console.log(err);
     }
   };
@@ -47,6 +61,12 @@ export default function Register() {
           <div className="max-w-md w-full mx-auto">
             <h1 className="text-4xl font-bold mb-2">Create an account</h1>
             <p className="text-gray-400 mb-10">Start managing your tasks effectively.</p>
+
+            {error && (
+              <div className="mb-6 px-4 py-3 rounded-lg bg-red-500/10 border border-red-500/30 text-red-400 text-sm">
+                {error}
+              </div>
+            )}
 
             <div className="flex flex-col gap-5">
               <div className="flex flex-col">
