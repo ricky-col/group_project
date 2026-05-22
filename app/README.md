@@ -1,54 +1,52 @@
 # TaskFlow Backend
 
-The backend engine for TaskFlow, built with Node.js, Express, and MongoDB. It handles authentication, real-time updates via Socket.io, and project management logic.
-
-## Getting Started
-
-1.  **Install dependencies:**
-    
-    npm install
-    
-
-2.  **Environment Variables:**
-    Create a `.env` file with the following:
-    ```env
-    PORT=3333
-    DB_URL=your_mongodb_connection_string
-    JWT_SECRET=your_jwt_secret
-    ```
-
-3.  **Run the server:**
-    
-    npm start
-    # or for development
-    npx nodemon server.js
-
-## Project Structure
-
-- **`models/`**: MongoDB schemas using Mongoose.
-  - `User.js`, `Board.js`, `List.js`, `Card.js`, `Activity.js`.
-- **`routes/`**: API endpoint definitions.
-  - `authRoute.js`, `boardRoute.js`, `listRoute.js`, `cardRoute.js`, `activityRoute.js`.
-- **`middleware/`**: Custom Express middlewares (e.g., `authMiddleware.js`).
-- **`services/`**: Core logic and shared services.
-- **`socket.js`**: Real-time event handling using Socket.io.
-- **`server.js`**: Main entry point where the Express app and Server are initialized.
-- **`test.http`**: REST Client file for testing API endpoints.
-
-## API Endpoints
-
-- `POST /api/auth/register` - User registration
-- `POST /api/auth/login` - User login
-- `GET /api/board/get` - Fetch user boards
-- `POST /api/board/create` - Create a new board
-- `GET /api/list/get/:boardId` - Fetch lists for a board
-- `PUT /api/card/update/:cardId` - Update card details
-- ... and more.
+The REST API backend for the TaskFlow application. Built with Node.js and Express, it provides secure authentication, real-time updates, and data persistence using MongoDB.
 
 ## Tech Stack
 
 - **Runtime**: Node.js
-- **Framework**: Express.js
-- **Database**: MongoDB (Mongoose)
+- **Framework**: Express
+- **Database**: MongoDB + Mongoose
+- **Authentication**: JSON Web Token (JWT) + bcryptjs
 - **Real-time**: Socket.io
-- **Auth**: JWT (JSON Web Tokens) & Cookie-parser
+- **Storage**: Cloudinary + Multer (File uploads)
+
+## Getting Started
+
+### Prerequisites
+- Node.js (v18+)
+- MongoDB instance (local or Atlas)
+- Cloudinary account (for image uploads)
+
+### Installation
+
+npm install
+
+### Environment Configuration
+
+Create a `.env` file in the root of the `app` directory with the following variables:
+
+```env
+PORT=5000
+MONGODB_URI=your_mongodb_connection_string
+JWT_SECRET=your_jwt_secret
+CLOUDINARY_CLOUD_NAME=your_cloud_name
+CLOUDINARY_API_KEY=your_api_key
+CLOUDINARY_API_SECRET=your_api_secret
+```
+
+### Development
+
+Start the backend server in development mode (using nodemon):
+```bash
+npm run dev
+```
+The server will start on `http://localhost:5000` (or the port specified in `.env`).
+
+## Core API Routes
+
+- `/api/auth` - User registration and login
+- `/api/board` - Board creation, retrieval, and invite handling
+- `/api/list` - List management within boards
+- `/api/card` - Card management, updates, and file attachments
+- `/api/activity` - Board and card activity tracking
