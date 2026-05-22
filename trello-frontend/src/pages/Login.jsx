@@ -8,9 +8,11 @@ export default function Login() {
   const { setUser } = useAuthStore();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleLogin = async () => {
+    setError("");
     try {
       const res = await API.post("/auth/login", { email, password });
 
@@ -27,7 +29,7 @@ export default function Login() {
       }
     } catch (err) {
       console.log(err);
-      alert("Login failed: " + (err.response?.data?.message || "Unknown error"));
+      setError(err.response?.data?.message || "Invalid email or password");
     }
   };
 
@@ -55,6 +57,12 @@ export default function Login() {
           <div className="max-w-md w-full mx-auto">
             <h1 className="text-4xl font-bold mb-2">Welcome back</h1>
             <p className="text-gray-400 mb-10">Please enter your details to sign in.</p>
+
+            {error && (
+              <div className="mb-6 px-4 py-3 rounded-lg bg-red-500/10 border border-red-500/30 text-red-400 text-sm">
+                {error}
+              </div>
+            )}
 
             <div className="flex flex-col gap-5">
               <div className="flex flex-col">

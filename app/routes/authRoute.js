@@ -18,6 +18,11 @@ authRouter.post("/register", async(req, res) => {
             return res.status(400).json({message: "Password must be at least 8 characters"});
         }
         
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        if (!passwordRegex.test(password)) {
+            return res.status(400).json({message: "Password must contain uppercase, lowercase, number, and special character"});
+        }
+        
         const userExists = await UserModel.findOne({email});
         if (userExists) {
             return res.status(400).json({message: "Email already registered"});
