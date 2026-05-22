@@ -14,11 +14,11 @@ export default function Login() {
     try {
       const res = await API.post("/auth/login", { email, password });
 
-      localStorage.setItem("user", JSON.stringify(res.data.user));
-      localStorage.setItem("token", res.data.token);
+      sessionStorage.setItem("user", JSON.stringify(res.data.user));
+      sessionStorage.setItem("token", res.data.token);
       setUser(res.data.user);
 
-      const inviteToken = localStorage.getItem("inviteToken");
+      const inviteToken = sessionStorage.getItem("inviteToken");
 
       if (inviteToken) {
         navigate(`/invite/${inviteToken}`);

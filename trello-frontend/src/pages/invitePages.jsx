@@ -67,12 +67,12 @@ export default function InvitePage() {
   const hasRun = useRef(false);
 
   const goToLogin = () => {
-    localStorage.setItem("inviteToken", token);
+    sessionStorage.setItem("inviteToken", token);
     navigate("/login");
   };
 
   const handleAccept = async () => {
-    const user = localStorage.getItem("user");
+    const user = sessionStorage.getItem("user");
     
     // If they click Accept Invite but are not logged in, redirect them to login first
     if (!user) {
@@ -85,7 +85,7 @@ export default function InvitePage() {
 
       await API.post("/board/accept-invite", { token });
 
-      localStorage.removeItem("inviteToken");
+      sessionStorage.removeItem("inviteToken");
       
       alert("Successfully joined board! ✅");
       window.location.href = "/dashboard";
@@ -95,7 +95,7 @@ export default function InvitePage() {
 
       // ✅ IMPORTANT: handle already-used invite
       if (msg === "Invalid invite") {
-        localStorage.removeItem("inviteToken");
+        sessionStorage.removeItem("inviteToken");
         alert("This invite link is invalid or has already been used.");
         window.location.href = "/dashboard";
         return;

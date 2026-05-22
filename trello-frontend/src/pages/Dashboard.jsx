@@ -11,13 +11,16 @@ export default function Dashboard() {
   const { boards, setBoards } = useBoardStore();
   const navigate = useNavigate();
 
-  let user = null;
-  try {
-    const data = localStorage.getItem("user");
-    user = data && data !== "undefined" ? JSON.parse(data) : null;
-  } catch (err) {
-    console.log("JSON parse error:", err);
-  }
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    try {
+      const data = sessionStorage.getItem("user");
+      setUser(data && data !== "undefined" ? JSON.parse(data) : null);
+    } catch (err) {
+      console.log("JSON parse error:", err);
+    }
+  }, []);
 
   const [showModal, setShowModal] = useState(false);
   const [title, setTitle] = useState("");
@@ -114,8 +117,8 @@ export default function Dashboard() {
     } catch (err) {
       console.log("Logout error:", err);
     }
-    localStorage.removeItem("user");
-    localStorage.removeItem("token");
+    sessionStorage.removeItem("user");
+    sessionStorage.removeItem("token");
     logout();
     navigate("/login");
   };

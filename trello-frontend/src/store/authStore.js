@@ -1,29 +1,27 @@
 import { create } from "zustand";
 
-const getStoredUser = () => {
-  try {
-    const stored = localStorage.getItem("user");
-    return stored ? JSON.parse(stored) : null;
-  } catch {
-    return null;
-  }
-};
-
 const useAuthStore = create((set) => ({
-  user: getStoredUser(),
-
-  setUser: (user) => {
-    if (user) {
-      localStorage.setItem("user", JSON.stringify(user));
-    } else {
-      localStorage.removeItem("user");
+  user: (() => {
+    const stored = sessionStorage.getItem("user");
+    try {
+      return stored && stored !== "undefined" ? JSON.parse(stored) : null;
+    } catch {
+      return null;
     }
+  })(),
+  
+  setUser: (user) => {
     set({ user });
+    if (user) {
+      sessionStorage.setItem("user", JSON.stringify(user));
+    } else {
+      sessionStorage.removeItem("user");
+    }
   },
 
   logout: () => {
-    localStorage.removeItem("user");
     set({ user: null });
+    sessionStorage.removeItem("user");
   },
 }));
 
