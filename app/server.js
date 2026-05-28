@@ -94,7 +94,13 @@ import activityRouter from "./routes/activityRoute.js";
 // socket
 import { initSocket } from "./socket.js";
 
-dotenv.config();
+const envResult = dotenv.config();
+if (envResult.error) {
+  console.warn("dotenv: .env file not found or could not be loaded. Using existing environment variables if available.");
+}
+
+const DB_URL = process.env.DB_URL || process.env.MONGODB_URI || process.env.DATABASE_URL;
+const PORT = process.env.PORT || 3333;
 
 const app = express();
 
@@ -128,12 +134,18 @@ initSocket(server);
 // connect to db and start server
 const connectDB = async () => {
   try {
-    await mongoose.connect(process.env.DB_URL);
+    if (!DB_URL) {
+      throw new Error(
+        "Missing database connection string. Create a .env file with DB_URL or set MONGODB_URI / DATABASE_URL in the environment."
+      );
+    }
+
+    await mongoose.connect(DB_URL);
 
     console.log("MongoDB Connected");
 
-    server.listen(3333, () => {
-      console.log("Server running on port 3333");
+    server.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
     });
 
   } catch (err) {
