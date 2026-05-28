@@ -11,16 +11,10 @@ export const cardRouter = exp.Router();
 
 
 
-// import exp from "express";
-// import { authMiddleware } from "../middleware/authmiddleware.js";
-// import CardModel from "../models/Card.js";
-// import ActivityModel from "../models/Activity.js";
-// import { getIO } from "../socket.js";
 
-// export const cardRouter = exp.Router();
 
 // ==========================
-// ✅ CREATE CARD
+// CREATE CARD
 // ==========================
 cardRouter.post("/create", authMiddleware, async (req, res) => {
   try {
@@ -39,7 +33,7 @@ cardRouter.post("/create", authMiddleware, async (req, res) => {
 
     await card.save();
 
-    // ✅ ACTIVITY LOG
+    //  ACTIVITY LOG
     await ActivityModel.create({
       action: "created a card",
       cardId: card._id,
@@ -48,7 +42,7 @@ cardRouter.post("/create", authMiddleware, async (req, res) => {
       userId: req.user.userID,
     });
 
-    // ✅ SAFE SOCKET (IMPORTANT)
+    //  SAFE SOCKET (IMPORTANT)
     try {
       const io = getIO();
       if (card.boardId) io.to(card.boardId.toString()).emit("cardCreated", card.toObject());
@@ -63,13 +57,13 @@ cardRouter.post("/create", authMiddleware, async (req, res) => {
     });
 
   } catch (err) {
-    console.log("🔥 CREATE CARD ERROR:", err);
+    console.log(" CREATE CARD ERROR:", err);
     res.status(500).json({ message: err.message });
   }
 });
 
 // ==========================
-// ✅ GET CARDS
+//  GET CARDS
 // ==========================
 cardRouter.get("/get/:id", authMiddleware, async (req, res) => {
   try {
@@ -93,7 +87,7 @@ cardRouter.get("/get/:id", authMiddleware, async (req, res) => {
 
 
 // ==========================
-// ✅ UPDATE CARD (DESC + CHECKLIST)
+//  UPDATE CARD (DESC + CHECKLIST)
 // ==========================
 cardRouter.put("/update/:id", authMiddleware, async (req, res) => {
   try {
@@ -114,7 +108,7 @@ cardRouter.put("/update/:id", authMiddleware, async (req, res) => {
       action: "updated card",
       cardId: card._id,
       listId: card.listId,
-      boardId, // ✅ IMPORTANT
+      boardId, //  IMPORTANT
       userId: req.user.userID,
     });
 
@@ -132,7 +126,7 @@ cardRouter.put("/update/:id", authMiddleware, async (req, res) => {
 });
 
 // ==========================
-// ✅ DELETE CARD (SOFT)
+//  DELETE CARD (SOFT)
 // ==========================
 cardRouter.delete("/delete/:id", authMiddleware, async (req, res) => {
   try {
@@ -153,7 +147,7 @@ cardRouter.delete("/delete/:id", authMiddleware, async (req, res) => {
       action: "deleted card",
       cardId: card._id,
       listId: card.listId,
-      boardId, // ✅ IMPORTANT
+      boardId, //  IMPORTANT
       userId: req.user.userID,
     });
 
@@ -171,7 +165,7 @@ cardRouter.delete("/delete/:id", authMiddleware, async (req, res) => {
 });
 
 // ==========================
-// ✅ REORDER CARD
+//  REORDER CARD
 // ==========================
 cardRouter.put("/reorder", authMiddleware, async (req, res) => {
   try {
@@ -199,7 +193,7 @@ cardRouter.put("/reorder", authMiddleware, async (req, res) => {
 
 
 // ==========================
-// ✅ MOVE CARD
+//  MOVE CARD
 // ==========================
 cardRouter.put("/move", authMiddleware, async (req, res) => {
   try {

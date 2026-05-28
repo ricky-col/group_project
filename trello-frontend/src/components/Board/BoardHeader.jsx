@@ -452,7 +452,7 @@ export default function BoardHeader({ board, boardId, onBoardUpdate }) {
         </div>
       </header>
 
-      {/* 🔥 SLIDE-IN ACTIVITY DRAWER */}
+      {/*  SLIDE-IN ACTIVITY DRAWER */}
       {showActivity && (
         <div className="fixed inset-0 z-[10000] flex">
           {/* Overlay */}

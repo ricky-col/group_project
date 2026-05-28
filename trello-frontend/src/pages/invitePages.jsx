@@ -12,7 +12,7 @@
 
 //       localStorage.removeItem("inviteToken");
 
-//       alert("Joined board ✅");
+//       alert("Joined board ");
 
 //       window.location.href = "/dashboard";
 
@@ -87,13 +87,13 @@ export default function InvitePage() {
 
       sessionStorage.removeItem("inviteToken");
       
-      alert("Successfully joined board! ✅");
+      alert("Successfully joined board! ");
       window.location.href = "/dashboard";
 
     } catch (err) {
       const msg = err.response?.data?.message;
 
-      // ✅ IMPORTANT: handle already-used invite
+      //  IMPORTANT: handle already-used invite
       if (msg === "Invalid invite") {
         sessionStorage.removeItem("inviteToken");
         alert("This invite link is invalid or has already been used.");

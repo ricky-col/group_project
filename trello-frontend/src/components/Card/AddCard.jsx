@@ -19,10 +19,10 @@ export default function AddCard({ listId, boardId }) {
         title,
         description: "",
         listId,
-        boardId, // ✅ IMPORTANT
+        boardId, //  IMPORTANT
       });
 
-      // ✅ UPDATE UI IMMEDIATELY (DIRECT STORE UPDATE)
+      //  UPDATE UI IMMEDIATELY (DIRECT STORE UPDATE)
       const newCard = res.data.payload;
       setCardsByList(listId, (prev = []) => {
         // Prevent duplicates if socket already added it

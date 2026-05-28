@@ -10,7 +10,7 @@ activityRouter.post("/create", authMiddleware, async (req, res) => {
     const { action, cardId, listId } = req.body;
 
     const activity = new ActivityModel({
-      userId: req.user.userID, // ✅ FIXED
+      userId: req.user.userID, //  FIXED
       action,
       cardId,
       listId
@@ -48,13 +48,13 @@ activityRouter.get("/card/:cardId", authMiddleware, async (req, res) => {
   }
 });
 
-// ✅ GET ACTIVITY BY BOARD
+//  GET ACTIVITY BY BOARD
 activityRouter.get("/:boardId", authMiddleware, async (req, res) => {
   try {
     const { boardId } = req.params;
 
     const activities = await ActivityModel
-      .find({ boardId }) // 🔥 IMPORTANT
+      .find({ boardId }) //  IMPORTANT
       .populate("userId", "name")
       .sort({ createdAt: -1 });
 

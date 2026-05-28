@@ -2,7 +2,7 @@ import exp from "express";
 import { authMiddleware } from "../middleware/authmiddleware.js";
 import ListModel from "../models/List.js";
 import { getIO } from "../socket.js";
-import CardModel from "../models/Card.js"; // ✅ ADD THIS
+import CardModel from "../models/Card.js"; //  ADD THIS
 export const listRouter = exp.Router();
 
 
@@ -28,7 +28,7 @@ listRouter.delete("/delete/:id", authMiddleware, async (req, res) => {
       return res.status(404).json({ message: "List not found" });
     }
 
-    // ✅ SAFE SOCKET
+    //  SAFE SOCKET
     try {
       const io = getIO();
       if (list.boardId) io.to(list.boardId.toString()).emit("listDeleted", list);
@@ -59,7 +59,7 @@ listRouter.post("/create", authMiddleware, async (req, res) => {
 
     await list.save();
 
-    // ✅ SAFE SOCKET
+    //  SAFE SOCKET
     try {
       const io = getIO();
       if (list.boardId) io.to(list.boardId.toString()).emit("listCreated", list);

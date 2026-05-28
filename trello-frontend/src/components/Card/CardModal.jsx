@@ -11,7 +11,7 @@
 
 //   const { cards, setCardsByList } = useBoardStore();
 
-//   // ✅ SYNC CARD
+//   //  SYNC CARD
 //   useEffect(() => {
 //     if (card) {
 //       setDescription(card.description || "");
@@ -19,7 +19,7 @@
 //     }
 //   }, [card]);
 
-//   // ✅ FETCH ACTIVITY
+//   //  FETCH ACTIVITY
 //   useEffect(() => {
 //     if (card) {
 //       API.get(`/activity/card/${card._id}`)
@@ -44,7 +44,7 @@
 //       boardId: card.boardId,
 //     });
 
-//     // ✅ UPDATE UI IMMEDIATELY
+//     //  UPDATE UI IMMEDIATELY
 //     const listCards = cards[card.listId] || [];
 
 //     const updated = listCards.map((c) =>
@@ -67,7 +67,7 @@
 //       data: { boardId: card.boardId },
 //     });
 
-//     // ✅ UPDATE UI
+//     //  UPDATE UI
 //     const listCards = cards[card.listId] || [];
 
 //     const updated = listCards.filter(
@@ -90,7 +90,7 @@
 
 //   await API.post(`/card/upload/${card._id}`, formData);
 
-//   alert("Uploaded ✅");
+//   alert("Uploaded ");
 // };
 
 //   return (
@@ -198,7 +198,7 @@
 //   Save
 // </button>
 
-// {/* 🔥 DELETE */}
+// {/*  DELETE */}
 // <button
 //   onClick={handleDelete}
 //   className="mt-2 bg-red-600 px-4 py-1"
@@ -206,7 +206,7 @@
 //   Delete
 // </button>
 
-//           {/* 🔥 ACTIVITY */}
+//           {/*  ACTIVITY */}
 //           <div className="mt-4">
 //             <h3 className="text-sm mb-2">Activity</h3>
 
@@ -238,7 +238,7 @@ export default function CardModal({ card, onClose }) {
 
   const { cards, setCardsByList } = useBoardStore();
 
-  // ✅ SYNC CARD
+  //  SYNC CARD
   useEffect(() => {
     if (card) {
       setDescription(card.description || "");
@@ -248,7 +248,7 @@ export default function CardModal({ card, onClose }) {
     }
   }, [card]);
 
-  // ✅ FETCH ACTIVITY
+  //  FETCH ACTIVITY
   useEffect(() => {
     if (card) {
       API.get(`/activity/card/${card._id}`)
@@ -265,7 +265,7 @@ export default function CardModal({ card, onClose }) {
       ? 0
       : (completed / checklist.length) * 100;
 
-  // ✅ SAVE (UPDATE CARD)
+  //  SAVE (UPDATE CARD)
   const handleSave = async () => {
     try {
       await API.put(`/card/update/${card._id}`, {
@@ -276,7 +276,7 @@ export default function CardModal({ card, onClose }) {
         boardId: card.boardId,
       });
 
-      // ✅ UPDATE UI
+      //  UPDATE UI
       const listCards = cards[card.listId] || [];
 
       const updated = listCards.map((c) =>
@@ -293,7 +293,7 @@ export default function CardModal({ card, onClose }) {
     }
   };
 
-  // ✅ DELETE CARD
+  //  DELETE CARD
   const handleDelete = async () => {
     try {
       await API.delete(`/card/delete/${card._id}`, {
@@ -314,7 +314,7 @@ export default function CardModal({ card, onClose }) {
     }
   };
 
-  // ✅ FILE UPLOAD
+  //  FILE UPLOAD
   const handleFileUpload = async (e) => {
     try {
       const file = e.target.files[0];
@@ -329,7 +329,7 @@ export default function CardModal({ card, onClose }) {
 
       const updatedCard = res.data;
 
-      // ✅ UPDATE UI
+      //  UPDATE UI
       const listCards = cards[card.listId] || [];
 
       const updated = listCards.map((c) =>
@@ -490,7 +490,7 @@ export default function CardModal({ card, onClose }) {
             Delete
           </button>
 
-          {/* 🔥 ATTACHMENTS */}
+          {/*  ATTACHMENTS */}
           <div className="mt-4">
             <h3 className="text-sm mb-2">Attachments</h3>
 
@@ -508,7 +508,7 @@ export default function CardModal({ card, onClose }) {
                   rel="noreferrer"
                   className="text-blue-400 text-xs underline border border-blue-400 px-2 py-1"
                 >
-                  📎 {file.name}
+                   {file.name}
                 </a>
               ))}
             </div>

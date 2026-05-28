@@ -7,7 +7,7 @@ export default function Landing() {
   return (
     <div className="min-h-screen flex flex-col bg-black text-white">
 
-      {/* 🔥 NAVBAR */}
+      {/*  NAVBAR */}
       <nav className="flex justify-between items-center px-10 py-6 border-b border-white/10 bg-[#0a0a0a]">
         <div className="flex items-center gap-2">
           <img
@@ -35,9 +35,9 @@ export default function Landing() {
         </div>
       </nav>
 
-      {/* 🔥 MAIN CONTENT WRAPPER */}
+      {/*  MAIN CONTENT WRAPPER */}
       <div className="min-h-[100vh]">
-        {/* 🔥 HERO */}
+        {/*  HERO */}
         <div className="flex flex-col items-center justify-center text-center px-6 mt-20">
 
           <h1 className="text-5xl md:text-6xl font-bold leading-tight max-w-3xl text-white">
@@ -64,7 +64,7 @@ export default function Landing() {
 
       </div>
 
-      {/* 🔥 FOOTER */}
+      {/*  FOOTER */}
       <Footer />
     </div>
   );

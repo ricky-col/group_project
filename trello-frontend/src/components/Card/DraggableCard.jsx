@@ -4,7 +4,7 @@
 //   const { attributes, listeners, setNodeRef, transform } = useDraggable({
 //     id: card._id,
 //     data: {
-//       ...card, // 🔥 IMPORTANT
+//       ...card, //  IMPORTANT
 //     },
 //   });
 
@@ -17,8 +17,8 @@
 //   return (
 //     <div
 //       ref={setNodeRef}
-//       {...listeners}   // ✅ MOVE HERE
-//       {...attributes}  // ✅ MOVE HERE
+//       {...listeners}   //  MOVE HERE
+//       {...attributes}  //  MOVE HERE
 //       style={style}
 //       className="bg-[#1f2937] text-white p-2 rounded-lg text-sm hover:bg-[#374151] transition-all flex items-center gap-2 cursor-grab"
 //     >
@@ -56,7 +56,7 @@
 //       style={style}
 //       className="bg-[#1f2937] text-white p-2 rounded-lg text-sm flex items-center gap-2"
 //     >
-//       {/* ✅ DRAG HANDLE ONLY */}
+//       {/*  DRAG HANDLE ONLY */}
 //       <div
 //         {...listeners}
 //         {...attributes}
@@ -65,10 +65,10 @@
 //         ⠿
 //       </div>
 
-//       {/* ✅ CLICK AREA */}
+//       {/*  CLICK AREA */}
 //       <div
 //         onClick={(e) => {
-//           e.stopPropagation(); // 🔥 IMPORTANT
+//           e.stopPropagation(); //  IMPORTANT
 //           onClick();
 //         }}
 //         className="flex-1 cursor-pointer"
@@ -119,7 +119,7 @@ const style = {
       )}
 
       <div className="flex items-start gap-2">
-        {/* ✅ DRAG HANDLE */}
+        {/*  DRAG HANDLE */}
         <div
           {...listeners}
           {...attributes}
@@ -128,7 +128,7 @@ const style = {
           ⠿
         </div>
 
-        {/* ✅ CLICK AREA */}
+        {/*  CLICK AREA */}
         <div
           onPointerDown={(e) => e.stopPropagation()}
           onClick={(e) => {

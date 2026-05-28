@@ -9,7 +9,7 @@ export const sendInviteMail = async (email, link) => {
     body: JSON.stringify({
       from: "TaskFlow <onboarding@resend.dev>", // Required sender for free tier
       to: [email],
-      subject: "Board Invitation 🚀",
+      subject: "Board Invitation ",
       html: `
         <h2>You are invited to collaborate</h2>
         <p>Someone has invited you to collaborate on a board in TaskFlow.</p>

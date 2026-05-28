@@ -5,6 +5,6 @@ const socket = io("https://group-project1-5ai9.onrender.com", {
   
 });
 socket.on("connect", () => {
-  console.log("✅ Connected to socket:", socket.id);
+  console.log(" Connected to socket:", socket.id);
 });
 export default socket;

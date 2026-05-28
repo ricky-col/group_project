@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom"; // ✅ IMPORTANT
+import { useParams } from "react-router-dom"; //  IMPORTANT
 import API from "../../services/api";
 import useBoardStore from "../../store/boardStore";
 import List from "../List/List";
@@ -14,7 +14,7 @@ import Footer from "../Common/Footer";
 import CardModal from "../Card/CardModal";
 
 export default function Board() {
-  const { id: boardId } = useParams(); // ✅ FIXED
+  const { id: boardId } = useParams(); //  FIXED
 
   const { lists, setLists, cards, setCardsByList } = useBoardStore();
   const [board, setBoard] = useState(null);
@@ -50,7 +50,7 @@ export default function Board() {
   };
 
   useEffect(() => {
-    if (!boardId) return; // ✅ safety
+    if (!boardId) return; //  safety
 
     fetchBoard();
     fetchLists();
@@ -58,11 +58,11 @@ export default function Board() {
     socket.emit("joinBoard", boardId);
 
     socket.on("cardCreated", (newCard) => {
-      // ✅ ENSURE STRING ID
+      //  ENSURE STRING ID
       const listId = String(newCard.listId);
 
       setCardsByList(listId, (prev = []) => {
-        // ✅ PREVENT DUPLICATES (if AddCard already added it)
+        //  PREVENT DUPLICATES (if AddCard already added it)
         if (prev.find((c) => c._id === newCard._id)) return prev;
         return [...prev, newCard];
       });
@@ -195,7 +195,7 @@ export default function Board() {
     if (!over) return;
 
     // ==========================
-    // ✅ LIST DRAG LOGIC (NEW)
+    //  LIST DRAG LOGIC (NEW)
     // ==========================
     if (!active.data.current && !over.data?.current) {
       const oldIndex = lists.findIndex((l) => l._id === active.id);
@@ -213,11 +213,11 @@ export default function Board() {
         }).catch(err => console.error("Failed to reorder list:", err));
       }
 
-      return; // 🔥 IMPORTANT (stop here for list drag)
+      return; //  IMPORTANT (stop here for list drag)
     }
 
     // ==========================
-    // ✅ CARD DRAG (YOUR EXISTING CODE)
+    //  CARD DRAG (YOUR EXISTING CODE)
     // ==========================
     const activeCard = active.data.current;
     if (!activeCard) return;
@@ -287,7 +287,7 @@ export default function Board() {
     <DndContext onDragEnd={handleDragEnd}>
       <div className="flex flex-col h-screen overflow-hidden">
 
-        {/* ✅ HEADER */}
+        {/*  HEADER */}
         <BoardHeader board={board} boardId={boardId} onBoardUpdate={fetchBoard} />
 
         {/* BOARD */}
@@ -315,7 +315,7 @@ export default function Board() {
           <AddList boardId={boardId} />
         </div>
 
-        {/* ✅ CARD MODAL (Moved to board level to fix positioning) */}
+        {/*  CARD MODAL (Moved to board level to fix positioning) */}
         <CardModal
           card={selectedCard}
           onClose={() => setSelectedCard(null)}

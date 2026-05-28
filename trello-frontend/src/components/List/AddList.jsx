@@ -63,7 +63,7 @@ const handleAdd = async () => {
 
     const newList = res.data.payload;
 
-    // ✅ UPDATE STATE CORRECTLY
+    //  UPDATE STATE CORRECTLY
     setLists([...lists, newList]);
 
     setTitle("");
